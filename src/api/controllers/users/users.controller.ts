@@ -24,7 +24,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
   
     @ApiTags('User')
     @ApiResponse({ status: 201, type: CreateUserResponseDto })
-    @Post('register')
+    @Post()
     async register(@Body() dto: CreateUserDto): Promise<CreateUserResponseDto> {
       await this.userService.create({
         email: dto.email,
@@ -34,7 +34,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     }
 
     @ApiResponse({ status: 200, type: LoginUsersResponseDto })
-      @Post('login')
+      @Post()
       async login(
         @Body() dto: LoginUsersDto,
       ): Promise<LoginUsersResponseDto> {

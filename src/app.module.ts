@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from './db/database.module';
 import { FeatureMdModule } from './feature-md/feature-md.module';
 import { UsersModule } from './modules/users/users.module';
+import { SurveysModule } from './modules/surveys/surveys.module';
 import { AdminsModule } from './modules/admins/admins.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,6 +15,7 @@ import configuration from './configuration';
     FeatureMdModule,
     AdminsModule,
     UsersModule,
+    SurveysModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],

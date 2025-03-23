@@ -11,7 +11,7 @@ export class AdminsController {
   constructor(private readonly adminsAuthService: AdminsAuthService) {}
 
   @ApiResponse({ status: 200, type: LoginAdminsResponseDto })
-  @Post('login')
+  @Post()
   async login(
     @Body() dto: LoginAdminsDto,
   ): Promise<LoginAdminsResponseDto> {
