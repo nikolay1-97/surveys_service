@@ -1,6 +1,6 @@
 import { Model } from "objection";
 
-export class Option extends Model {
+export class AnswersOptions extends Model {
   static tableName = 'answers_options';
 
   static get idColumn() {
