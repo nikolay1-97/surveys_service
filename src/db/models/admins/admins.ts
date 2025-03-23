@@ -1,7 +1,7 @@
 import { BaseModel } from '../baseModel';
 
 export class Admin extends BaseModel {
-  static tableName = 'admin';
+  static tableName = 'admins';
 
   email: string;
   password: string;

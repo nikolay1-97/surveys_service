@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { UsersRepository } from 'src/db/repositories/user/repository';
+import { UsersRepository } from 'src/db/repositories/users/repository';
 import { CreateUserDto } from 'src/api/dto/users/userCreate.dto';
 import { CreateUserResponseDto } from 'src/api/dtoResponse/user/userCreateResponse.dto';
 
