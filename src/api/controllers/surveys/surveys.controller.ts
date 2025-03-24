@@ -44,18 +44,18 @@ import { JwtService } from '@nestjs/jwt';
     }
   
     @ApiResponse({ status: 200, type: UpdateSurveysResponseDto })
-    @Patch(':app_id')
+    @Patch(':survey_id')
     async changeTitle(
       @Body() dto: UpdateSurveysDto,
       @Req() request: Request,
-      @Param('app_id', ParseIntPipe) app_id: number,
+      @Param('survey_id', ParseIntPipe) survey_id: number,
     ): Promise<UpdateSurveysResponseDto | undefined> {
       const token = request.headers.authorization;
       if (token) {
         const payload = this.jwtService.decode(token.substring(7, token.length));
         const admin_id = payload.sub;
         if (admin_id) {
-          return await this.surveysService.update(app_id, admin_id, dto);
+          return await this.surveysService.update(survey_id, admin_id, dto);
         }
       }
     }
