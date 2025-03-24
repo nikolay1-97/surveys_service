@@ -20,7 +20,6 @@ import { ChangeTypeQuestionDto } from 'src/api/dto/questions/questionChangeType.
 import { ChangeTypeQuestionResponseDto } from 'src/api/dtoResponse/questions/questionChangeTypeResponse.dto';
 import { GetBySurveyIdQuestionResponseDto } from 'src/api/dtoResponse/questions/questionGetBySurveyIdResponse.dto';
 import { DeleteQuestionResponseDto } from 'src/api/dtoResponse/questions/questionDeleteResponse.dto';
-import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 
   
