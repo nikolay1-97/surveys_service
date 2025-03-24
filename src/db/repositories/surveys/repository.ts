@@ -23,12 +23,12 @@ export class SurveysRepository {
 
   async getByOwnerId(owner_id: number) {
     try {
-      const user: Survey[] | undefined = await this.modelClass
+      const surveys: Survey[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('owner_id', '=', owner_id);
 
-      return user;
+      return surveys;
     } catch (e) {
       console.log(e);
       throw e;

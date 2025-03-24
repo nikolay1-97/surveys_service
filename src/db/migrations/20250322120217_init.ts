@@ -59,6 +59,7 @@ export async function up(knex: Knex): Promise<void> {
         table.increments().primary();
         table.integer('survey_results_id').notNullable();
         table.integer('question_id').notNullable();
+        table.string('answer');
         table
           .foreign('survey_results_id')
           .references('id')
