@@ -22,7 +22,7 @@ export class AnswersRepository {
         console.log(e);
         throw e;
       }
-    }
+  }
 
   async create(survey_result_id: number, question_id: number, dto: CreateAnswersDto) {
     try {

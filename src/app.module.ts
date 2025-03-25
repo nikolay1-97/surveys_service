@@ -8,6 +8,7 @@ import { QuestionsModule } from './modules/questions/questions.module';
 import { OptionsModule } from './modules/options/options.module';
 import { SurveyResultsModule } from './modules/survey_results/survey_results.module';
 import { AnswersModule } from './modules/answers/answer.module';
+import { AnswersOptionsModule } from './modules/answers_options/answers_options.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -24,6 +25,7 @@ import configuration from './configuration';
     OptionsModule,
     SurveyResultsModule,
     AnswersModule,
+    AnswersOptionsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],

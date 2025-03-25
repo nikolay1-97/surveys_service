@@ -88,4 +88,24 @@ export class OptionsRepository {
     }
   }
 
+  async getByAnswerIdAndOptionId(
+      answer_id,
+      option_id: number,
+    ) {
+      try {
+        const option: Option[] | undefined = await this.modelClass
+          .query()
+          .where('answers.id', '=', answer_id)
+          .where('options.id', '=', option_id)
+          .join('questions', 'questions.id', '=', 'options.question_id')
+          .join('answers', 'questions.id', '=', 'answers.question_id')
+          .select('options.id', 'options.title');
+  
+        return option[0];
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    }
+
 }
