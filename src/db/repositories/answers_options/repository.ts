@@ -36,4 +36,30 @@ export class AnswersOptionsRepository {
         }
     }
 
+    async getStatBySurveyId(
+        survey_id: number,
+      ) {
+        try {
+          const surveyStat: AnswersOptions[] | undefined = await this.modelClass
+            .query()
+            .where('survey_results.survey_id', '=', survey_id)
+            .join('options', 'options.id', '=', 'answers_options.option_id')
+            .join('questions', 'questions.id', '=', 'options.question_id')
+            .join('answers', 'questions.id', '=', 'answers.question_id')
+            .join('survey_results', 'survey_results.id', '=', 'answers.survey_results_id')
+            .join('surveys', 'surveys.id', '=', 'survey_results.survey_id')
+            .select(
+                'surveys.title as surveyTitle',
+                'questions.question',
+                'answers.answer',
+                'options.title'
+            );
+    
+          return surveyStat;
+        } catch (e) {
+          console.log(e);
+          throw e;
+        }
+    }
+
 }

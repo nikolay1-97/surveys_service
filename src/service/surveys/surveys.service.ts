@@ -53,6 +53,5 @@ export class SurveysService {
         created_at: survey.created_at,
     });
   }
-
   
 }

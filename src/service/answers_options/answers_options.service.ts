@@ -31,4 +31,10 @@ export class AnswersOptionsService {
     
   }
 
+  async getStatBySurveyId(survey_id: number) {
+    const survey_stat = await this.answersOptionsrepository.getStatBySurveyId(survey_id)
+    return survey_stat
+      
+    }
+
 }

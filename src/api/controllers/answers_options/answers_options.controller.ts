@@ -30,6 +30,15 @@ import { CreateAnswersOptionsResponseDto } from 'src/api/dtoResponse/answers_opt
     ): Promise<CreateAnswersOptionsResponseDto> {
         return await this.answersOptionsService.create(answer_id, option_id);
     }
+
+    //@ApiResponse({ status: 200, type: [GetBySurveyIdQuestionResponseDto] })
+    @Get('surveys/:survey_id')
+    async getBySurveyId(
+        @Param('survey_id', ParseIntPipe) survey_id: number,
+    ) {
+        return await this.answersOptionsService.getStatBySurveyId(survey_id);
+          
+    }
     
 }
   

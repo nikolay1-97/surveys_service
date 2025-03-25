@@ -82,5 +82,7 @@ import { JwtService } from '@nestjs/jwt';
     ): Promise<DeleteSurveysResponseDto> {
       return await this.surveysService.delete(survey_id);
     }
-  }
+
+  
+}
   
