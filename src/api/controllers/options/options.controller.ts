@@ -21,7 +21,6 @@ import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDelet
 import { JwtService } from '@nestjs/jwt';
 
   
-  @ApiTags('Admins')
   @Controller('options')
   export class OptionsController {
     constructor(
@@ -29,6 +28,7 @@ import { JwtService } from '@nestjs/jwt';
       private readonly jwtService: JwtService,
     ) {}
   
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: CreateOptionResponseDto })
     @Post('surveys/:survey_id/questions/:question_id')
     async register(
@@ -39,6 +39,7 @@ import { JwtService } from '@nestjs/jwt';
         return await this.optionsService.create(question_id, dto);
     }
   
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: ChangeTitleOptionResponseDto })
     @Patch('survey/:survey_id/questions/:question_id/options/:option_id')
     async changeTitle(
@@ -57,10 +58,11 @@ import { JwtService } from '@nestjs/jwt';
         @Param('survey_id', ParseIntPipe) survey_id: number,
         @Param('question_id', ParseIntPipe) question_id: number,
     ): Promise<GetByQuestionIdOptionResponseDto[]> {
-          return await this.optionsService.getByQuestionId(question_id);
+          return await this.optionsService.getBySurveyIdAndQuestionId(survey_id, question_id);
       
     }
   
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: DeleteOptionResponseDto })
     @Delete('surveys/:survey_id/questions/:question_id/options/:option_id')
     async delete(

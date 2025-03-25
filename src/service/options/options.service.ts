@@ -35,8 +35,8 @@ export class OptionsService {
   }
 
 
-  async getByQuestionId(question_id: number): Promise<GetByQuestionIdOptionResponseDto[]> {
-    const options = await this.optionsRepository.getByQuestionId(question_id);
+  async getBySurveyIdAndQuestionId(survey_id: number, question_id: number): Promise<GetByQuestionIdOptionResponseDto[]> {
+    const options = await this.optionsRepository.getBySurveyIdAndQuestionId(survey_id, question_id);
 
     return plainToInstance(GetByQuestionIdOptionResponseDto, options);
   }

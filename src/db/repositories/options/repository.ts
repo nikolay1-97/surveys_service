@@ -34,6 +34,23 @@ export class OptionsRepository {
     }
   }
 
+  async getBySurveyIdAndQuestionId(survey_id: number, question_id: number) {
+    try {
+        const options: Option[] | undefined = await this.modelClass
+        .query()
+        .where('surveys.id', '=', survey_id)
+        .where('questions.id', '=', question_id)
+        .join('questions', 'questions.id', '=', 'options.question_id')
+        .join('surveys', 'surveys.id', '=', 'questions.survey_id')
+        .select('options.id', 'options.title');
+
+      return options;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
 
   async getByQuestionIdAndTitle(question_id: number, title: string) {
     try {

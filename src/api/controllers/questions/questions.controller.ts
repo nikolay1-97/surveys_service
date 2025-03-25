@@ -23,7 +23,6 @@ import { DeleteQuestionResponseDto } from 'src/api/dtoResponse/questions/questio
 import { JwtService } from '@nestjs/jwt';
 
   
-  @ApiTags('Admins')
   @Controller('questions')
   export class QuestionsController {
     constructor(
@@ -31,6 +30,7 @@ import { JwtService } from '@nestjs/jwt';
       private readonly jwtService: JwtService,
     ) {}
   
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: CreateQuestionResponseDto })
     @Post('surveys/:survey_id')
     async register(
@@ -40,6 +40,7 @@ import { JwtService } from '@nestjs/jwt';
         return await this.questionsService.create(survey_id, dto);
     }
   
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: ChangeQuestionQuestionResponseDto })
     @Patch('survey/:survey_id/questions/:question_id')
     async changeQuestion(
@@ -51,6 +52,7 @@ import { JwtService } from '@nestjs/jwt';
         return await this.questionsService.changeQuestion(question_id, survey_id, dto);
     }
 
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: ChangeTypeQuestionResponseDto })
     @Patch('surveys/:survey_id/questions/:question_id')
     async changeType(
@@ -71,6 +73,7 @@ import { JwtService } from '@nestjs/jwt';
       
     }
   
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: DeleteQuestionResponseDto })
     @Delete('surveys/:survey_id/questions/:question_id')
     async delete(
