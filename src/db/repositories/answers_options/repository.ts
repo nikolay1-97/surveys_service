@@ -47,13 +47,34 @@ export class AnswersOptionsRepository {
             .join('questions', 'questions.id', '=', 'options.question_id')
             .join('answers', 'questions.id', '=', 'answers.question_id')
             .join('survey_results', 'survey_results.id', '=', 'answers.survey_results_id')
-            .join('surveys', 'surveys.id', '=', 'survey_results.survey_id')
+            .join('users', 'users.id', '=', 'survey_results.user_id')
             .select(
-                'surveys.title as surveyTitle',
+                'users.email',
                 'questions.question',
                 'answers.answer',
                 'options.title'
             );
+          let res = {}
+          for (let cnt=0; cnt<=surveyStat.length-1;cnt++) {
+            if (surveyStat[cnt]['email'] in res) {
+                if (surveyStat[cnt]['question'] in res[surveyStat[cnt]['email']]) {
+                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['title'])
+                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['answer'])
+                }
+                else {
+                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']] = []
+                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['title'])
+                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['answer'])
+                }
+            }
+            else {
+                res[surveyStat[cnt]['email']] = {}
+                res[surveyStat[cnt]['email']][surveyStat[cnt]['question']] = []
+                res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['title'])
+                res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['answer'])
+            }
+          }
+          console.log(res)
     
           return surveyStat;
         } catch (e) {
