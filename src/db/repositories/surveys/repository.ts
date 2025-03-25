@@ -35,6 +35,20 @@ export class SurveysRepository {
     }
   }
 
+  async getByTitle(title: string) {
+    try {
+      const survey: Survey[] | undefined = await this.modelClass
+        .query()
+        .select('*')
+        .where('title', '=', title);
+
+      return survey[0];
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
   async create(owner_id: number, dto: CreateSurveysDto) {
     try {
       const data: object = {

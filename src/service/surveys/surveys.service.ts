@@ -16,7 +16,7 @@ export class SurveysService {
   ) {}
 
   async create(owner_id: number, dto: CreateSurveysDto): Promise<CreateSurveysResponseDto | undefined> {
-    const survey = await this.surveysRepository.getByTitleAndOwnerId(dto.title, owner_id);
+    const survey = await this.surveysRepository.getByTitle(dto.title);
 
     if (!survey) {
       await this.surveysRepository.create(owner_id, dto);
@@ -26,7 +26,7 @@ export class SurveysService {
   }
 
   async update(id: number, admin_id: number, dto: UpdateSurveysDto): Promise<UpdateSurveysResponseDto | undefined> {
-    const survey = await this.surveysRepository.getByTitleAndOwnerId(dto.title, admin_id)
+    const survey = await this.surveysRepository.getByTitle(dto.title)
     if (survey) {
       throw new BadRequestException('survey already exists')
     }

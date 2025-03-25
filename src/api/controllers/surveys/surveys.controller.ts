@@ -76,11 +76,11 @@ import { JwtService } from '@nestjs/jwt';
     }
   
     @ApiResponse({ status: 200, type: DeleteSurveysResponseDto })
-    @Delete(':app_id')
+    @Delete(':survey_id')
     async delete(
-      @Param('app_id', ParseIntPipe) app_id: number,
+      @Param('survey_id', ParseIntPipe) survey_id: number,
     ): Promise<DeleteSurveysResponseDto> {
-      return await this.surveysService.delete(app_id);
+      return await this.surveysService.delete(survey_id);
     }
   }
   

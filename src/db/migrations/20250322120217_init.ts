@@ -18,7 +18,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('surveys', function (table) {
       table.increments().primary();
       table.integer('owner_id').notNullable();
-      table.string('title');
+      table.string('title').unique();
       table
         .foreign('owner_id')
         .references('id')
