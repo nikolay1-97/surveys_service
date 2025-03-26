@@ -48,35 +48,43 @@ export class AnswersOptionsRepository {
             .join('answers', 'questions.id', '=', 'answers.question_id')
             .join('survey_results', 'survey_results.id', '=', 'answers.survey_results_id')
             .join('users', 'users.id', '=', 'survey_results.user_id')
+            .orderBy('users.email')
             .select(
                 'users.email',
                 'questions.question',
                 'answers.answer',
-                'options.title'
+                'options.title as option'
             );
-          let res = {}
+          if (surveyStat.length === 0) {
+            return [];
+          }
+          let res: object = {}
           for (let cnt=0; cnt<=surveyStat.length-1;cnt++) {
-            if (surveyStat[cnt]['email'] in res) {
-                if (surveyStat[cnt]['question'] in res[surveyStat[cnt]['email']]) {
-                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['title'])
-                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['answer'])
+            let email = surveyStat[cnt]['email']
+            let question = surveyStat[cnt]['question']
+            let answer = surveyStat[cnt]['answer']
+            let option = surveyStat[cnt]['option']
+            
+            if (email in res) {
+                if (question in res[email]['questions']) {
+                    res[email]['questions'][question]['options'].push(option)
                 }
                 else {
-                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']] = []
-                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['title'])
-                    res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['answer'])
+                    res[email]['questions'][question] = {'options': []}
+                    res[email]['questions'][question]['options'].push(option)
+                    res[email]['questions'][question]['answer'] = answer
                 }
             }
             else {
-                res[surveyStat[cnt]['email']] = {}
-                res[surveyStat[cnt]['email']][surveyStat[cnt]['question']] = []
-                res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['title'])
-                res[surveyStat[cnt]['email']][surveyStat[cnt]['question']].push(surveyStat[cnt]['answer'])
+                res[email] = {}
+                res[email]['questions'] = {}
+                res[email]['questions'][question] = {'options': []}
+                res[email]['questions'][question]['options'].push(option)
+                res[email]['questions'][question]['answer'] = answer
             }
           }
-          console.log(res)
     
-          return surveyStat;
+          return res;
         } catch (e) {
           console.log(e);
           throw e;
