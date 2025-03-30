@@ -19,7 +19,11 @@ export class OptionsService {
     const option = await this.optionsRepository.getByQuestionIdAndTitle(question_id, dto.title);
 
     if (!option) {
-      await this.optionsRepository.create(question_id, dto);
+      const data = {
+        question_id: question_id,
+        title: dto.title,
+    }
+      await this.optionsRepository.create(data);
       return new CreateOptionResponseDto({question_id: question_id, title: dto.title});
     }
     throw new BadRequestException('option already exists');
@@ -30,7 +34,8 @@ export class OptionsService {
     if (option) {
       throw new BadRequestException('option already exists')
     }
-    await this.optionsRepository.changeTitle(id, dto);
+    const data = {title: dto.title}
+    await this.optionsRepository.changeTitle(id, data);
     return new ChangeTitleOptionResponseDto({title: dto.title});
   }
 

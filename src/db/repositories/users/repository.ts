@@ -1,7 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { CreateUserDto } from 'src/api/dto/users/userCreate.dto';
-import { PasswordService } from 'src/feature-md/password/password.service';
 import { User } from 'src/db/models/users/users';
 
 
@@ -9,7 +7,6 @@ import { User } from 'src/db/models/users/users';
 export class UsersRepository {
   constructor(
     @Inject('User') private modelClass: ModelClass<User>,
-    private readonly passwordService: PasswordService,
   ) {}
 
   async getById(id: number) {
@@ -37,16 +34,9 @@ export class UsersRepository {
     }
   }
 
-  async create(dto: CreateUserDto) {
+  async create(data: object) {
     try {
-      const data: object = {
-        email: dto.email,
-        password: await this.passwordService.getPasswordHash(
-          dto.password,
-        ),
-      };
-      await this.modelClass.query().insert(data);
-      return dto;
+      return await this.modelClass.query().insert(data);
     } catch (e) {
       console.log(e);
       throw e;

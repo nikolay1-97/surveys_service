@@ -21,7 +21,12 @@ export class QuestionsService {
     const question = await this.questionsRepository.getBySurveyIdAndQuestion(survey_id, dto.question);
 
     if (!question) {
-      await this.questionsRepository.create(survey_id, dto);
+      const data = {
+        survey_id: survey_id,
+        question: dto.question,
+        type: dto.type,
+      }
+      await this.questionsRepository.create(data);
       return new CreateQuestionResponseDto({survey_id: survey_id, question: dto.question, type: dto.type});
     }
     throw new BadRequestException('question already exists');
@@ -32,12 +37,14 @@ export class QuestionsService {
     if (question) {
       throw new BadRequestException('question already exists')
     }
-    await this.questionsRepository.changeQuestion(id, dto);
+    const data = {question: dto.question}
+    await this.questionsRepository.changeQuestion(id, data);
     return new ChangeQuestionQuestionResponseDto({question: dto.question});
   }
 
   async changeType(id: number, survey_id: number, dto: ChangeTypeQuestionDto): Promise<ChangeTypeQuestionResponseDto> {
-    await this.questionsRepository.changeType(id, dto);
+    const data = {type: dto.type}
+    await this.questionsRepository.changeType(id, data);
     return new ChangeTypeQuestionResponseDto({type: dto.type});
   }
 

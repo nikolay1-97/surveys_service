@@ -1,7 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { CreateSurveysDto } from 'src/api/dto/surveys/surveysCreate.dto';
-import { UpdateSurveysDto } from 'src/api/dto/surveys/surveysUpdate.dto';
 import { Survey } from 'src/db/models/surveys/surveys';
 
 @Injectable()
@@ -12,9 +10,9 @@ export class SurveysRepository {
 
   async getById(id: number) {
     try {
-      const survey: Survey | undefined = await this.modelClass.query().findById(id);
+      const item: Survey | undefined = await this.modelClass.query().findById(id);
 
-      return survey;
+      return item;
     } catch (e) {
       console.log(e);
       throw e;
@@ -23,12 +21,12 @@ export class SurveysRepository {
 
   async getByOwnerId(owner_id: number) {
     try {
-      const surveys: Survey[] | undefined = await this.modelClass
+      const items: Survey[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('owner_id', '=', owner_id);
 
-      return surveys;
+      return items;
     } catch (e) {
       console.log(e);
       throw e;
@@ -37,41 +35,36 @@ export class SurveysRepository {
 
   async getByTitle(title: string) {
     try {
-      const survey: Survey[] | undefined = await this.modelClass
+      const items: Survey[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('title', '=', title);
 
-      return survey[0];
+      return items[0];
     } catch (e) {
       console.log(e);
       throw e;
     }
   }
 
-  async create(owner_id: number, dto: CreateSurveysDto) {
+  async create(data: object) {
     try {
-      const data: object = {
-        owner_id: owner_id,
-        title: dto.title,
-      };
-      await this.modelClass.query().insert(data);
-      return dto;
+      return await this.modelClass.query().insert(data);
     } catch (e) {
       console.log(e);
       throw e;
     }
   }
 
-  async changeTitle(id: number, dto: UpdateSurveysDto) {
+  async changeTitle(id: number, data: object) {
     try {
       await this.modelClass
         .query()
-        .patch(dto)
+        .patch(data)
         .where({ id })
         .returning('*')
         .first();
-      return dto;
+      return data;
     } catch (e) {
       console.log(e);
       throw e;
@@ -92,14 +85,14 @@ export class SurveysRepository {
     owner_id: number,
   ) {
     try {
-      const surveys: Survey[] | undefined = await this.modelClass
+      const items: Survey[] | undefined = await this.modelClass
         .query()
         .where('title', '=', title)
         .where('surveys.owner_id', '=', owner_id)
         .join('admins', 'surveys.owner_id', '=', 'admins.id')
         .select('surveys.id', 'surveys.title');
 
-      return surveys[0];
+      return items[0];
     } catch (e) {
       console.log(e);
       throw e;

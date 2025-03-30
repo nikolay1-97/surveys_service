@@ -19,7 +19,11 @@ export class SurveysService {
     const survey = await this.surveysRepository.getByTitle(dto.title);
 
     if (!survey) {
-      await this.surveysRepository.create(owner_id, dto);
+      const data = {
+        owner_id: owner_id,
+        title: dto.title
+      }
+      await this.surveysRepository.create(data);
       return new CreateSurveysResponseDto({title: dto.title});
     }
     throw new BadRequestException('survey already exists');
@@ -30,7 +34,8 @@ export class SurveysService {
     if (survey) {
       throw new BadRequestException('survey already exists')
     }
-    await this.surveysRepository.changeTitle(id, dto);
+    const data = {title: dto.title}
+    await this.surveysRepository.changeTitle(id, data);
     return new UpdateSurveysResponseDto({title: dto.title});
   }
 

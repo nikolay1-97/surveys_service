@@ -11,7 +11,7 @@ export class AnswersRepository {
 
   async getBySurveyResultIdQuestionIdUserId(survey_result_id: number, question_id: number, user_id: number) {
       try {
-        const answer: Answer[] | undefined = await this.modelClass
+        const items: Answer[] | undefined = await this.modelClass
           .query()
           .select('*')
           .where('survey_results_id', '=', survey_result_id)
@@ -19,7 +19,7 @@ export class AnswersRepository {
           .where('user_id', '=', user_id)
           .join('survey_results', 'survey_results.id', '=', 'answers.survey_results_id')
   
-        return answer[0];
+        return items[0];
       } catch (e) {
         console.log(e);
         throw e;
@@ -28,7 +28,7 @@ export class AnswersRepository {
 
   async create(data: object, trx) {
     try {
-      return  await this.modelClass.query(trx).insert(data);
+      return await this.modelClass.query(trx).insert(data);
       
     } catch (e) {
       console.log(e);

@@ -36,13 +36,13 @@ export class AnswersOptionsRepository {
 
   async getBySurveyAnswerIdAndOptionId(answer_id: number, option_id: number) {
         try {
-          const answerOption: AnswersOptions[] | undefined = await this.modelClass
+          const items: AnswersOptions[] | undefined = await this.modelClass
             .query()
             .select('*')
             .where('answer_id', '=', answer_id)
             .where('option_id', '=', option_id);
     
-          return answerOption[0];
+          return items[0];
         } catch (e) {
           console.log(e);
           throw e;

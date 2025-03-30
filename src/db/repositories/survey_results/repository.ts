@@ -10,9 +10,9 @@ export class SurveyResultsRepository {
 
   async getById(id: number) {
     try {
-      const surveyResult: SurveyResult | undefined = await this.modelClass.query().findById(id);
+      const item: SurveyResult | undefined = await this.modelClass.query().findById(id);
 
-      return surveyResult;
+      return item;
     } catch (e) {
       console.log(e);
       throw e;
@@ -21,12 +21,12 @@ export class SurveyResultsRepository {
 
   async getByOwnerId(owner_id: number) {
     try {
-      const surveyResults: SurveyResult[] | undefined = await this.modelClass
+      const items: SurveyResult[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('user_id', '=', owner_id);
 
-      return surveyResults;
+      return items;
     } catch (e) {
       console.log(e);
       throw e;
@@ -56,13 +56,13 @@ export class SurveyResultsRepository {
     owner_id: number,
   ) {
     try {
-      const surveyResult: SurveyResult[] | undefined = await this.modelClass
+      const items: SurveyResult[] | undefined = await this.modelClass
         .query()
         .where('survey_id', '=', survey_id)
         .where('user_id', '=', owner_id)
         .select('survey_results.id');
 
-      return surveyResult[0];
+      return items[0];
     } catch (e) {
       console.log(e);
       throw e;
