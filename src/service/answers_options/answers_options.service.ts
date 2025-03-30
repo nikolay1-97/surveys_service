@@ -11,25 +11,25 @@ export class AnswersOptionsService {
     private readonly optionsRepository: OptionsRepository,
   ) {}
 
-  async create(answer_id: number, option_id: number): Promise<CreateAnswersOptionsResponseDto> {
-    const option = await this.optionsRepository.getByAnswerIdAndOptionId(answer_id, option_id);
-    if (!option) {
-        throw new BadRequestException('option not found')
-    }
+  //async create(answer_id: number, option_id: number): Promise<CreateAnswersOptionsResponseDto> {
+    //const option = await this.optionsRepository.getByAnswerIdAndOptionId(answer_id, option_id);
+    //if (!option) {
+        //throw new BadRequestException('option not found')
+    //}
 
-    const answerOption = await this.answersOptionsrepository.getBySurveyAnswerIdAndOptionId(
-        answer_id,
-        option_id,
-    )
+    //const answerOption = await this.answersOptionsrepository.getBySurveyAnswerIdAndOptionId(
+        //answer_id,
+        //option_id,
+    //)
 
-    if (!answerOption) {
-        await this.answersOptionsrepository.create(answer_id, option_id)
-        return new CreateAnswersOptionsResponseDto({answer_id: answer_id, option_id: option_id});
-    }
+    //if (!answerOption) {
+        //await this.answersOptionsrepository.create(answer_id, option_id)
+        //return new CreateAnswersOptionsResponseDto({answer_id: answer_id, option_id: option_id});
+    //}
 
-    throw new BadRequestException('row of answer_result already exists')
+    //throw new BadRequestException('row of answer_result already exists')
     
-  }
+  //}
 
   async getStatBySurveyId(survey_id: number) {
     const survey_stat = await this.answersOptionsrepository.getStatBySurveyId(survey_id)

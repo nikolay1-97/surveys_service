@@ -9,8 +9,8 @@ export class DeleteSurveyResultsResponseDto {
   readonly id: number;
 
   @ApiProperty()
-  @IsString()
-  readonly title: string;
+  @IsNumber()
+  readonly survey_id: number;
 
   @ApiProperty()
   @IsString()

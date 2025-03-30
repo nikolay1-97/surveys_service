@@ -21,15 +21,6 @@ import { CreateAnswersOptionsResponseDto } from 'src/api/dtoResponse/answers_opt
     constructor(
       private readonly answersOptionsService: AnswersOptionsService,
     ) {}
-  
-    @ApiResponse({ status: 200, type: CreateAnswersOptionsResponseDto })
-    @Post('answers/:answer_id/options/:option_id')
-    async register(
-        @Param('answer_id', ParseIntPipe) answer_id: number,
-        @Param('option_id', ParseIntPipe) option_id: number,
-    ): Promise<CreateAnswersOptionsResponseDto> {
-        return await this.answersOptionsService.create(answer_id, option_id);
-    }
 
     //@ApiResponse({ status: 200, type: [GetBySurveyIdQuestionResponseDto] })
     @Get('surveys/:survey_id')

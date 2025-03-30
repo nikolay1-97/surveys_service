@@ -15,10 +15,6 @@ export class GetByUserIdSurveyResultsResponseDto {
 
   @ApiProperty()
   @IsString()
-  readonly title: string;
-
-  @ApiProperty()
-  @IsString()
   readonly created_at: string;
 
   constructor(partial: Partial<GetByUserIdSurveyResultsResponseDto>) {

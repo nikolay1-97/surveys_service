@@ -8,13 +8,26 @@ export class AnswersOptionsRepository {
     @Inject('AnswersOptions') private modelClass: ModelClass<AnswersOptions>,
   ) {}
 
-  async create(answer_id: number, option_id: number) {
+  async create(answer_id: number, data: Array<number>, trx) {
     try {
-      const data: object = {
-        answer_id: answer_id,
-        option_id: option_id,
-      };
-      await this.modelClass.query().insert(data);
+      if (data.length === 1) {
+        await this.modelClass
+        .query(trx).insert({
+          answer_id: answer_id,
+          option_id: data[0],
+        })
+      }
+      else {
+        for (let cnt = 0; cnt <= data.length-1; cnt++) {
+          console.log(data[cnt])
+          console.log(data.length)
+          await this.modelClass
+          .query(trx).insert({
+            answer_id: answer_id,
+            option_id: data[cnt]
+          })
+        }
+      }
     } catch (e) {
       console.log(e);
       throw e;
@@ -48,7 +61,7 @@ export class AnswersOptionsRepository {
             .join('answers', 'questions.id', '=', 'answers.question_id')
             .join('survey_results', 'survey_results.id', '=', 'answers.survey_results_id')
             .join('users', 'users.id', '=', 'survey_results.user_id')
-            .orderBy('users.email')
+            //.orderBy('users.email')
             .select(
                 'users.email',
                 'questions.question',
