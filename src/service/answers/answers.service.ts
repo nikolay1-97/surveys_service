@@ -20,7 +20,7 @@ export class AnswersService {
     private readonly surResRepository: SurveyResultsRepository,
   ) {}
 
-  async create(survey_result_id: number, question_id: number, user_id: number, dto: CreateAnswersDto): Promise<CreateAnswersResponseDto> {
+  async create(user_id: number, survey_result_id: number, question_id: number, dto: CreateAnswersDto): Promise<CreateAnswersResponseDto> {
     const surRes = await this.surResRepository.getById(survey_result_id)
     if (!surRes) {
       throw new BadRequestException('survey_result not found')
@@ -48,6 +48,7 @@ export class AnswersService {
           }
       }
       const data = {
+        user_id: user_id,
         survey_results_id: survey_result_id,
         question_id: question_id,
         answer: dto.answer,

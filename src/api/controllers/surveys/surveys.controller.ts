@@ -18,10 +18,13 @@ import { UpdateSurveysDto } from 'src/api/dto/surveys/surveysUpdate.dto';
 import { UpdateSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysUpdateResponse.dto';
 import { GetByOwnerIdSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysGetByOwnerIdResp.dto';
 import { DeleteSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysDeleteResponse.dto';
+import { Payload } from 'src/api/decorators/users/getPayload';
 import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
+import { AdminAuthGuard } from 'src/api/guards/admin/adminAuthGuard';
 
   
+  //@UseGuards(AdminAuthGuard)
   @ApiTags('Admins')
   @Controller('surveys')
   export class SurveysController {
@@ -32,15 +35,8 @@ import { JwtService } from '@nestjs/jwt';
   
     @ApiResponse({ status: 200, type: CreateSurveysResponseDto })
     @Post()
-    async register(@Body() dto: CreateSurveysDto, @Req() request: Request): Promise<CreateSurveysResponseDto | undefined> {
-      const token = request.headers.authorization;
-      if (token) {
-        const payload = this.jwtService.decode(token.substring(7, token.length));
-        const admin_id = payload.sub;
-        if (admin_id) {
-          return await this.surveysService.create(admin_id, dto);
-        }
-      }
+    async register(@Body() dto: CreateSurveysDto, @Payload() payload): Promise<CreateSurveysResponseDto | undefined> {
+        return await this.surveysService.create(payload.sub, dto);
     }
   
     @ApiResponse({ status: 200, type: UpdateSurveysResponseDto })

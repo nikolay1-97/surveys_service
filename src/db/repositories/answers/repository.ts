@@ -17,7 +17,6 @@ export class AnswersRepository {
           .where('survey_results_id', '=', survey_result_id)
           .where('question_id', '=', question_id)
           .where('user_id', '=', user_id)
-          .join('survey_results', 'survey_results.id', '=', 'answers.survey_results_id')
   
         return items[0];
       } catch (e) {

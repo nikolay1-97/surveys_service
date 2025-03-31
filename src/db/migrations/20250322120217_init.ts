@@ -56,9 +56,15 @@ export async function up(knex: Knex): Promise<void> {
       })
       .createTable('answers', function (table) {
         table.increments().primary();
+        table.integer('user_id').notNullable();
         table.integer('survey_results_id').notNullable();
         table.integer('question_id').notNullable();
         table.string('answer');
+        table
+          .foreign('user_id')
+          .references('id')
+          .inTable('users')
+          .onDelete('CASCADE');
         table
           .foreign('survey_results_id')
           .references('id')
