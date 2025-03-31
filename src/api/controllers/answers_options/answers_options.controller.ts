@@ -30,6 +30,13 @@ import { CreateAnswersOptionsResponseDto } from 'src/api/dtoResponse/answers_opt
         return await this.answersOptionsService.getStatBySurveyId(survey_id);
           
     }
+
+    @Get()
+    async getStat(
+    ) {
+        return await this.answersOptionsService.getStat();
+          
+    }
     
 }
   

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { ModelClass } from 'objection';
+import { ModelClass, PartialModelObject } from 'objection';
 import { Survey } from 'src/db/models/surveys/surveys';
 
 @Injectable()
@@ -47,7 +47,7 @@ export class SurveysRepository {
     }
   }
 
-  async create(data: object) {
+  async create(data: PartialModelObject<Survey>) {
     try {
       return await this.modelClass.query().insert(data);
     } catch (e) {

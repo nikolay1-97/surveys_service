@@ -37,4 +37,10 @@ export class AnswersOptionsService {
       
     }
 
+  async getStat() {
+    const survey_stat = await this.answersOptionsrepository.getStat();
+    return survey_stat
+        
+  }
+
 }
