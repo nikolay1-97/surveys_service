@@ -1,16 +1,16 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass, PartialModelObject } from 'objection';
-import { Survey } from 'src/db/models/surveys/surveys';
+import { Surveys } from 'src/db/models/surveys/surveys';
 
 @Injectable()
 export class SurveysRepository {
   constructor(
-    @Inject('Survey') private modelClass: ModelClass<Survey>,
+    @Inject('Surveys') private modelClass: ModelClass<Surveys>,
   ) {}
 
   async getById(id: number) {
     try {
-      const item: Survey | undefined = await this.modelClass.query().findById(id);
+      const item: Surveys | undefined = await this.modelClass.query().findById(id);
 
       return item;
     } catch (e) {
@@ -21,7 +21,7 @@ export class SurveysRepository {
 
   async getByOwnerId(owner_id: number) {
     try {
-      const items: Survey[] | undefined = await this.modelClass
+      const items: Surveys[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('owner_id', '=', owner_id);
@@ -35,7 +35,7 @@ export class SurveysRepository {
 
   async getByTitle(title: string) {
     try {
-      const items: Survey[] | undefined = await this.modelClass
+      const items: Surveys[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('title', '=', title);
@@ -47,7 +47,7 @@ export class SurveysRepository {
     }
   }
 
-  async create(data: PartialModelObject<Survey>) {
+  async create(data: PartialModelObject<Surveys>) {
     try {
       return await this.modelClass.query().insert(data);
     } catch (e) {
@@ -85,7 +85,7 @@ export class SurveysRepository {
     owner_id: number,
   ) {
     try {
-      const items: Survey[] | undefined = await this.modelClass
+      const items: Surveys[] | undefined = await this.modelClass
         .query()
         .where('title', '=', title)
         .where('surveys.owner_id', '=', owner_id)

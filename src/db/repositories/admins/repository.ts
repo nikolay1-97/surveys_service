@@ -1,17 +1,17 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { Admin } from 'src/db/models/admins/admins';
+import { Admins } from 'src/db/models/admins/admins';
 
 
 @Injectable()
 export class AdminsRepository {
   constructor(
-    @Inject('Admin') private modelClass: ModelClass<Admin>,
+    @Inject('Admins') private modelClass: ModelClass<Admins>,
   ) {}
 
   async getByEmail(email: string) {
     try {
-      const admins: Admin[] | undefined = await this.modelClass
+      const admins: Admins[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('email', '=', email);

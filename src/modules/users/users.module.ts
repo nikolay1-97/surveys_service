@@ -4,7 +4,7 @@ import { UsersAuthService } from 'src/service/users/usersAuth.service';
 import { UsersRepository } from 'src/db/repositories/users/repository';
 import { UsersController } from 'src/api/controllers/users/users.controller';
 import { UsersAuthController } from 'src/api/controllers/users/usersLogin.controller';
-import { User } from 'src/db/models/users/users';
+import { Users } from 'src/db/models/users/users';
 import { PasswordService } from 'src/feature-md/password/password.service';
 import { JwtService } from '@nestjs/jwt';
 
@@ -14,7 +14,7 @@ import { JwtService } from '@nestjs/jwt';
     UsersService,
     UsersAuthService,
     UsersRepository,
-    User,
+    Users,
     PasswordService,
     JwtService,
   ],

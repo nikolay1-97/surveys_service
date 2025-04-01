@@ -28,7 +28,7 @@ import { Request } from 'express';
             secret: this.configService.get('USER_SECRET')
           }
         );
-        request['payload'] = payload;
+        request['user'] = payload;
       } catch {
         throw new UnauthorizedException();
       }

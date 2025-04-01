@@ -6,7 +6,7 @@ import { OptionsRepository } from 'src/db/repositories/options/repository';
 import { SurveyResultsRepository } from 'src/db/repositories/survey_results/repository';
 import { CreateAnswersDto } from 'src/api/dto/answers/answerCreateDto';
 import { CreateAnswersResponseDto } from 'src/api/dtoResponse/answers/answersCreateResponse.dto';
-import { Answer } from 'src/db/models/answers/answers';
+import { Answers } from 'src/db/models/answers/answers';
 
 
 
@@ -54,7 +54,7 @@ export class AnswersService {
         answer: dto.answer,
       }
       const optionsData = dto.options
-      const trx = await Answer.startTransaction();
+      const trx = await Answers.startTransaction();
       try {
         const answer = await this.answersRepository.create(data, trx);
         await this.answersOptionsRepository.create(answer.id, optionsData, trx)

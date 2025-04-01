@@ -6,7 +6,7 @@ import { AnswersOptionsRepository } from 'src/db/repositories/answers_options/re
 import { OptionsRepository } from 'src/db/repositories/options/repository';
 import { SurveyResultsRepository } from 'src/db/repositories/survey_results/repository';
 import { AnswersController } from 'src/api/controllers/answers/answers.controller';
-import { Answer } from 'src/db/models/answers/answers';
+import { Answers } from 'src/db/models/answers/answers';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
@@ -18,7 +18,7 @@ import { JwtService } from '@nestjs/jwt';
     AnswersOptionsRepository,
     OptionsRepository,
     SurveyResultsRepository,
-    Answer,
+    Answers,
     JwtService,
   ],
 })

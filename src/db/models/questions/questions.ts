@@ -1,6 +1,6 @@
 import { BaseModel } from '../baseModel';
 
-export class Question extends BaseModel {
+export class Questions extends BaseModel {
   static tableName = 'questions';
 
   survey_id: number;

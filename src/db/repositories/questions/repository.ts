@@ -1,15 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { Question } from 'src/db/models/questions/questions';
+import { Questions } from 'src/db/models/questions/questions';
 
 
 @Injectable()
 export class QuestionsRepository {
-  constructor(@Inject('Question') private modelClass: ModelClass<Question>) {}
+  constructor(@Inject('Questions') private modelClass: ModelClass<Questions>) {}
 
   async getById(id: number) {
     try {
-      const item: Question | undefined = await this.modelClass.query().findById(id);
+      const item: Questions | undefined = await this.modelClass.query().findById(id);
 
       return item;
     } catch (e) {
@@ -20,7 +20,7 @@ export class QuestionsRepository {
 
   async getBySurveyId(survey_id: number) {
     try {
-      const items: Question[] | undefined = await this.modelClass
+      const items: Questions[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('survey_id', '=', survey_id);
@@ -35,7 +35,7 @@ export class QuestionsRepository {
 
   async getBySurveyIdAndQuestion(survey_id: number, question: string) {
     try {
-      const items: Question[] | undefined = await this.modelClass
+      const items: Questions[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('survey_id', '=', survey_id)

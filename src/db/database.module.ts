@@ -1,11 +1,11 @@
 import { Module, Global } from '@nestjs/common';
-import { Admin } from './models/admins/admins';
-import { User } from './models/users/users';
-import { Survey } from './models/surveys/surveys';
-import { SurveyResult } from './models/survey_results/survey_results';
-import { Question } from './models/questions/questions';
-import { Answer } from './models/answers/answers';
-import { Option } from './models/options/options';
+import { Admins } from './models/admins/admins';
+import { Users } from './models/users/users';
+import { Surveys } from './models/surveys/surveys';
+import { SurveyResults } from './models/survey_results/survey_results';
+import { Questions } from './models/questions/questions';
+import { Answers } from './models/answers/answers';
+import { Options } from './models/options/options';
 import { AnswersOptions } from './models/answersOptions/answersOptions';
 import { knexSnakeCaseMappers } from 'objection';
 import { Model } from 'objection';
@@ -13,13 +13,13 @@ import { knex } from 'knex';
 import config from '../configuration/index';
 
 const models = [
-    Admin,
-    User,
-    Survey,
-    SurveyResult,
-    Question,
-    Answer,
-    Option,
+    Admins,
+    Users,
+    Surveys,
+    SurveyResults,
+    Questions,
+    Answers,
+    Options,
     AnswersOptions,
 ];
 const modelProviders = models.map((model) => {

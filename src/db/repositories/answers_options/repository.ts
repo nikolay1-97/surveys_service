@@ -146,9 +146,6 @@ export class AnswersOptionsRepository {
                 res[email]['surveys'][survey] = {'questions': {}}
                 res[email]['surveys'][survey]['questions'][question] = {'options': [], 'answer': answer}
                 res[email]['surveys'][survey]['questions'][question]['options'].push(option)
-                  //res[email]['questions'][question] = {'options': []}
-                  //res[email]['questions'][question]['options'].push(option)
-                  //res[email]['questions'][question]['answer'] = answer
               }
           }
           else {

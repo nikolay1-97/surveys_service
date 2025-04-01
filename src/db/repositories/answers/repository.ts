@@ -1,17 +1,17 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { Answer } from 'src/db/models/answers/answers';
+import { Answers } from 'src/db/models/answers/answers';
 
 
 @Injectable()
 export class AnswersRepository {
   constructor(
-    @Inject('Answer') private readonly modelClass: ModelClass<Answer>,
+    @Inject('Answers') private readonly modelClass: ModelClass<Answers>,
   ) {}
 
   async getBySurveyResultIdQuestionIdUserId(survey_result_id: number, question_id: number, user_id: number) {
       try {
-        const items: Answer[] | undefined = await this.modelClass
+        const items: Answers[] | undefined = await this.modelClass
           .query()
           .select('*')
           .where('survey_results_id', '=', survey_result_id)

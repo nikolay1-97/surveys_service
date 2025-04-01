@@ -1,17 +1,17 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { User } from 'src/db/models/users/users';
+import { Users } from 'src/db/models/users/users';
 
 
 @Injectable()
 export class UsersRepository {
   constructor(
-    @Inject('User') private modelClass: ModelClass<User>,
+    @Inject('Users') private modelClass: ModelClass<Users>,
   ) {}
 
   async getById(id: number) {
     try {
-      const user: User | undefined = await this.modelClass.query().findById(id);
+      const user: Users | undefined = await this.modelClass.query().findById(id);
 
       return user;
     } catch (e) {
@@ -22,7 +22,7 @@ export class UsersRepository {
 
   async getByEmail(email: string) {
     try {
-      const user: User[] | undefined = await this.modelClass
+      const user: Users[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('email', '=', email);

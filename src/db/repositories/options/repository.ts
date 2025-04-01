@@ -1,15 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { Option } from 'src/db/models/options/options';
+import { Options } from 'src/db/models/options/options';
 
 
 @Injectable()
 export class OptionsRepository {
-  constructor(@Inject('Option') private modelClass: ModelClass<Option>) {}
+  constructor(@Inject('Options') private modelClass: ModelClass<Options>) {}
 
   async getById(id: number) {
     try {
-      const item: Option | undefined = await this.modelClass.query().findById(id);
+      const item: Options | undefined = await this.modelClass.query().findById(id);
 
       return item;
     } catch (e) {
@@ -20,7 +20,7 @@ export class OptionsRepository {
 
   async getByQuestionId(question_id: number) {
     try {
-      const items: Option[] | undefined = await this.modelClass
+      const items: Options[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('question_id', '=', question_id);
@@ -34,7 +34,7 @@ export class OptionsRepository {
 
   async getBySurveyIdAndQuestionId(survey_id: number, question_id: number) {
     try {
-        const items: Option[] | undefined = await this.modelClass
+        const items: Options[] | undefined = await this.modelClass
         .query()
         .where('surveys.id', '=', survey_id)
         .where('questions.id', '=', question_id)
@@ -52,7 +52,7 @@ export class OptionsRepository {
 
   async getByQuestionIdAndTitle(question_id: number, title: string) {
     try {
-      const items: Option[] | undefined = await this.modelClass
+      const items: Options[] | undefined = await this.modelClass
         .query()
         .select('*')
         .where('question_id', '=', question_id)
@@ -103,7 +103,7 @@ export class OptionsRepository {
       option_id: number,
     ) {
       try {
-        const items: Option[] | undefined = await this.modelClass
+        const items: Options[] | undefined = await this.modelClass
           .query()
           .where('answers.id', '=', answer_id)
           .where('options.id', '=', option_id)

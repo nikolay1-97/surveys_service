@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { OptionsService } from 'src/service/options/options.service';
 import { OptionsRepository } from 'src/db/repositories/options/repository';
 import { OptionsController } from 'src/api/controllers/options/options.controller';
-import { Option } from 'src/db/models/options/options';
+import { Options } from 'src/db/models/options/options';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
   providers: [
     OptionsService,
     OptionsRepository,
-    Option,
+    Options,
     JwtService,
   ],
 })

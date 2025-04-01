@@ -31,9 +31,9 @@ export class AdminsAuthService {
   async login(email: string, password: string) {
     const admin = await this.validateUser(email, password);
     if (admin) {
-      const payload: { sub: number; username: string } = {
-        sub: admin.id,
-        username: admin.email,
+      const payload = {
+        id: admin.id,
+        email: admin.email,
       };
 
       const token: string = await this.jwtService.signAsync(payload, {

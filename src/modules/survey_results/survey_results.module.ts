@@ -4,7 +4,7 @@ import { PasswordService } from 'src/feature-md/password/password.service';
 import { SurveyResultsRepository } from 'src/db/repositories/survey_results/repository';
 import { UsersRepository } from 'src/db/repositories/users/repository';
 import { SurveyResultsController } from 'src/api/controllers/survey_results/survey_results.controller';
-import { SurveyResult } from 'src/db/models/survey_results/survey_results';
+import { SurveyResults } from 'src/db/models/survey_results/survey_results';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
@@ -14,7 +14,7 @@ import { JwtService } from '@nestjs/jwt';
     PasswordService,
     SurveyResultsRepository,
     UsersRepository,
-    SurveyResult,
+    SurveyResults,
     JwtService,
   ],
 })
