@@ -13,6 +13,8 @@ import {
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AnswersOptionsService } from 'src/service/answers_options/answers_options.service';
 import { CreateAnswersOptionsResponseDto } from 'src/api/dtoResponse/answers_options/answers_optionsCreateResponse.dto';
+import { GetStatBySurveyIdResponseDto } from 'src/api/dtoResponse/answersOptions/getStatBySurveyId';
+import { GetStatResponseDto } from 'src/api/dtoResponse/answersOptions/getStatResponse';
 
   
   @ApiTags('Users')
@@ -22,15 +24,16 @@ import { CreateAnswersOptionsResponseDto } from 'src/api/dtoResponse/answers_opt
       private readonly answersOptionsService: AnswersOptionsService,
     ) {}
 
-    //@ApiResponse({ status: 200, type: [GetBySurveyIdQuestionResponseDto] })
+    @ApiResponse({ status: 200, type: GetStatBySurveyIdResponseDto })
     @Get('surveys/:survey_id')
-    async getBySurveyId(
+    async getStatBySurveyId(
         @Param('survey_id', ParseIntPipe) survey_id: number,
     ) {
         return await this.answersOptionsService.getStatBySurveyId(survey_id);
           
     }
-
+    
+    @ApiResponse({ status: 200, type: GetStatResponseDto })
     @Get()
     async getStat(
     ) {

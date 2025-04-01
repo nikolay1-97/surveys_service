@@ -65,7 +65,8 @@ export class AnswersOptionsRepository {
                 'users.email',
                 'questions.question',
                 'answers.answer',
-                'options.title as option'
+                'options.title as option',
+                'type',
             );
           if (surveyStat.length === 0) {
             return [];
@@ -76,6 +77,7 @@ export class AnswersOptionsRepository {
             let question = surveyStat[cnt]['question']
             let answer = surveyStat[cnt]['answer']
             let option = surveyStat[cnt]['option']
+            let type = surveyStat[cnt]['type']
             
             if (email in res) {
                 if (question in res[email]['questions']) {
@@ -85,6 +87,7 @@ export class AnswersOptionsRepository {
                     res[email]['questions'][question] = {'options': []}
                     res[email]['questions'][question]['options'].push(option)
                     res[email]['questions'][question]['answer'] = answer
+                    res[email]['questions'][question]['type'] = type
                 }
             }
             else {
@@ -93,6 +96,7 @@ export class AnswersOptionsRepository {
                 res[email]['questions'][question] = {'options': []}
                 res[email]['questions'][question]['options'].push(option)
                 res[email]['questions'][question]['answer'] = answer
+                res[email]['questions'][question]['type'] = type
             }
           }
     
@@ -118,7 +122,8 @@ export class AnswersOptionsRepository {
               'surveys.title as survey',
               'questions.question',
               'answers.answer',
-              'options.title as option'
+              'options.title as option',
+              'type',
           );
         if (surveyStat.length === 0) {
           return [];
@@ -130,26 +135,27 @@ export class AnswersOptionsRepository {
           let question = surveyStat[cnt]['question']
           let answer = surveyStat[cnt]['answer']
           let option = surveyStat[cnt]['option']
+          let type = surveyStat[cnt]['type']
           
           if (email in res) {
               if (survey in res[email]['surveys']) {
                 if (question in res[email]['surveys'][survey]['questions'])
                   res[email]['surveys'][survey]['questions'][question]['options'].push(option)
                 else {
-                  res[email]['surveys'][survey]['questions'][question] = {'options': [], 'answer': answer}
+                  res[email]['surveys'][survey]['questions'][question] = {'options': [], 'answer': answer, 'type': type}
                   res[email]['surveys'][survey]['questions'][question]['options'].push(option)
                 }
               }
               else {
                 res[email]['surveys'][survey] = {'questions': {}}
-                res[email]['surveys'][survey]['questions'][question] = {'options': [], 'answer': answer}
+                res[email]['surveys'][survey]['questions'][question] = {'options': [], 'answer': answer, 'type': type}
                 res[email]['surveys'][survey]['questions'][question]['options'].push(option)
               }
           }
           else {
               res[email] = {'surveys': {}}
               res[email]['surveys'][survey] = {'questions': {}}
-              res[email]['surveys'][survey]['questions'][question] = {'options': [], 'answer': answer}
+              res[email]['surveys'][survey]['questions'][question] = {'options': [], 'answer': answer, 'type': type}
               res[email]['surveys'][survey]['questions'][question]['options'].push(option)
               
               
