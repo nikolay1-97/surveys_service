@@ -61,7 +61,6 @@ export class AnswersOptionsRepository {
             .join('answers', 'questions.id', '=', 'answers.question_id')
             .join('survey_results', 'survey_results.id', '=', 'answers.survey_results_id')
             .join('users', 'users.id', '=', 'survey_results.user_id')
-            //.orderBy('users.email')
             .select(
                 'users.email',
                 'questions.question',
@@ -71,7 +70,7 @@ export class AnswersOptionsRepository {
           if (surveyStat.length === 0) {
             return [];
           }
-          let res: object = {}
+          const res = {}
           for (let cnt=0; cnt<=surveyStat.length-1;cnt++) {
             let email = surveyStat[cnt]['email']
             let question = surveyStat[cnt]['question']
@@ -114,7 +113,6 @@ export class AnswersOptionsRepository {
           .join('users', 'users.id', '=', 'answers.user_id')
           .join('survey_results', 'users.id', '=', 'survey_results.user_id')
           .join('surveys', 'surveys.id', '=', 'survey_results.survey_id')
-          //.orderBy('users.email')
           .select(
               'users.email',
               'surveys.title as survey',
@@ -125,7 +123,7 @@ export class AnswersOptionsRepository {
         if (surveyStat.length === 0) {
           return [];
         }
-        let res: object = {}
+        const res = {}
         for (let cnt=0; cnt<=surveyStat.length-1;cnt++) {
           let survey = surveyStat[cnt]['survey']
           let email = surveyStat[cnt]['email']

@@ -4,8 +4,8 @@ import { UsersRepository } from 'src/db/repositories/users/repository';
 import { CreateSurveyResultsResponseDto } from 'src/api/dtoResponse/survey_results/sur_resCreateResponse.dto';
 import { DeleteSurveyResultsResponseDto } from 'src/api/dtoResponse/survey_results/sur_resDeleteResponse.dto';
 import { GetByUserIdSurveyResultsResponseDto } from 'src/api/dtoResponse/survey_results/sur_resGetByUserIdResponse.dto';
-
 import { plainToInstance } from 'class-transformer';
+import { SurveyResults } from 'src/db/models/survey_results/survey_results';
 
 @Injectable()
 export class SurveyResultsService {
@@ -17,7 +17,7 @@ export class SurveyResultsService {
   async create(
     owner_id: number,
     survey_id: number,
-): Promise<CreateSurveyResultsResponseDto | undefined> {
+): Promise<CreateSurveyResultsResponseDto> {
     const surveyResult = await this.surveyResultsRepository.getBySurveyIdAndOwnerId(survey_id, owner_id);
 
     if (!surveyResult) {
@@ -25,8 +25,16 @@ export class SurveyResultsService {
         user_id: owner_id,
         survey_id: survey_id,
       }
-      await this.surveyResultsRepository.create(data);
-      return new CreateSurveyResultsResponseDto({survey_id: survey_id});
+      const trx = await SurveyResults.startTransaction()
+      try {
+        await this.surveyResultsRepository.create(data, trx);
+        await trx.commit()
+        return new CreateSurveyResultsResponseDto({survey_id: survey_id});
+      } catch(e) {
+        console.log(e)
+        await trx.rollback()
+        throw e
+      }
     }
     throw new BadRequestException('survey_result already exists');
   }
@@ -44,11 +52,19 @@ export class SurveyResultsService {
     if (!surveyResult) {
       throw new BadRequestException('surveyResult not found');
     }
-    await this.surveyResultsRepository.delete(id);
-    return new DeleteSurveyResultsResponseDto({
+    const trx = await SurveyResults.startTransaction()
+    try {
+      await this.surveyResultsRepository.delete(id, trx);
+      await trx.commit()
+      return new DeleteSurveyResultsResponseDto({
         id: surveyResult.id,
         created_at: surveyResult.created_at,
-    });
+      });
+    } catch(e) {
+        console.log(e)
+        await trx.rollback()
+        throw e
+      }
   }
 
 }

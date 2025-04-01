@@ -34,9 +34,9 @@ export class UsersRepository {
     }
   }
 
-  async create(data: object) {
+  async create(data: object, trx) {
     try {
-      return await this.modelClass.query().insert(data);
+      return await this.modelClass.query(trx).insert(data);
     } catch (e) {
       console.log(e);
       throw e;

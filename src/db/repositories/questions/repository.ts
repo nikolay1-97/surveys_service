@@ -48,19 +48,19 @@ export class QuestionsRepository {
     }
   }
 
-  async create(data: object) {
+  async create(data: object, trx) {
     try {
-      return await this.modelClass.query().insert(data);
+      return await this.modelClass.query(trx).insert(data);
     } catch (e) {
       console.log(e);
       throw e;
     }
   }
 
-  async changeQuestion(id: number, data: object) {
+  async update(id: number, data: object, trx) {
     try {
       await this.modelClass
-        .query()
+        .query(trx)
         .patch(data)
         .where({ id })
         .returning('*')
@@ -72,24 +72,9 @@ export class QuestionsRepository {
     }
   }
 
-  async changeType(id: number, data: object) {
+  async delete(id: number, trx) {
     try {
-      await this.modelClass
-        .query()
-        .patch(data)
-        .where({ id })
-        .returning('*')
-        .first();
-      return data;
-    } catch (e) {
-      console.log(e);
-      throw e;
-    }
-  }
-
-  async delete(id: number) {
-    try {
-      await this.modelClass.query().deleteById(id);
+      await this.modelClass.query(trx).deleteById(id);
     } catch (e) {
       console.log(e);
       throw e;

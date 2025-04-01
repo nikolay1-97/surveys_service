@@ -25,12 +25,10 @@ import { AdminAuthGuard } from 'src/api/guards/admin/adminAuthGuard';
 import { Admins } from 'src/db/models/admins/admins';
 
  
-
-  
-  @UseGuards(AdminAuthGuard)
-  @ApiTags('Admins')
-  @Controller('surveys')
-  export class SurveysController {
+@UseGuards(AdminAuthGuard)
+@ApiTags('Admins')
+@Controller('surveys')
+export class SurveysController {
     constructor(
       private readonly surveysService: SurveysService,
       private readonly jwtService: JwtService,
@@ -38,7 +36,7 @@ import { Admins } from 'src/db/models/admins/admins';
   
     @ApiResponse({ status: 200, type: CreateSurveysResponseDto })
     @Post()
-    async register(@Body() dto: CreateSurveysDto, @User() user: Admins): Promise<CreateSurveysResponseDto | undefined> {
+    async register(@Body() dto: CreateSurveysDto, @User() user: Admins): Promise<CreateSurveysResponseDto> {
         return await this.surveysService.create(user.id, dto);
     }
   
@@ -46,32 +44,18 @@ import { Admins } from 'src/db/models/admins/admins';
     @Patch(':survey_id')
     async changeTitle(
       @Body() dto: UpdateSurveysDto,
-      @Req() request: Request,
+      @User() user: Admins,
       @Param('survey_id', ParseIntPipe) survey_id: number,
-    ): Promise<UpdateSurveysResponseDto | undefined> {
-      const token = request.headers.authorization;
-      if (token) {
-        const payload = this.jwtService.decode(token.substring(7, token.length));
-        const admin_id = payload.sub;
-        if (admin_id) {
-          return await this.surveysService.update(survey_id, admin_id, dto);
-        }
-      }
+    ): Promise<UpdateSurveysResponseDto> {
+        return await this.surveysService.changeTitle(survey_id, user.id, dto);
     }
   
     @ApiResponse({ status: 200, type: [GetByOwnerIdSurveysResponseDto] })
     @Get()
     async getListByOwnerId(
-      @Req() request: Request,
-    ): Promise<GetByOwnerIdSurveysResponseDto[] | undefined> {
-      const token = request.headers.authorization;
-      if (token) {
-        const payload = this.jwtService.decode(token.substring(7, token.length));
-        const admin_id = payload.sub;
-        if (admin_id) {
-          return await this.surveysService.getByOwnerId(admin_id);
-        }
-      }
+      @User() user: Admins,
+    ): Promise<GetByOwnerIdSurveysResponseDto[]> {
+        return await this.surveysService.getByOwnerId(user.id);
     }
   
     @ApiResponse({ status: 200, type: DeleteSurveysResponseDto })

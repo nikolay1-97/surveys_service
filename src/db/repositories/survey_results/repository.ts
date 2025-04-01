@@ -33,18 +33,18 @@ export class SurveyResultsRepository {
     }
   }
 
-  async create(data: object) {
+  async create(data: object, trx) {
     try {
-      return await this.modelClass.query().insert(data);
+      return await this.modelClass.query(trx).insert(data);
     } catch (e) {
       console.log(e);
       throw e;
     }
   }
 
-  async delete(id: number) {
+  async delete(id: number, trx) {
     try {
-      await this.modelClass.query().deleteById(id);
+      await this.modelClass.query(trx).deleteById(id);
     } catch (e) {
       console.log(e);
       throw e;

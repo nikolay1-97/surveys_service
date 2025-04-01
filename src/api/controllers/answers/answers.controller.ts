@@ -37,8 +37,7 @@ import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
         @Body() dto: CreateAnswersDto,
         @Param('survey_results_id', ParseIntPipe) survey_results_id: number,
         @Param('question_id', ParseIntPipe) question_id: number,
-    ): Promise<CreateAnswersResponseDto | undefined> {
-        
+    ): Promise<CreateAnswersResponseDto> {
         return await this.answersService.create(user.id, survey_results_id, question_id, dto);
         
     }

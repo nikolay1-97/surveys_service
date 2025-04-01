@@ -7,6 +7,7 @@ import { ChangeTitleOptionResponseDto } from 'src/api/dtoResponse/options/option
 import { GetByQuestionIdOptionResponseDto } from 'src/api/dtoResponse/options/optionGetByQuestionIdResponse.dto';
 import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDeleteResponse.dto';
 import { plainToInstance } from 'class-transformer';
+import { Options } from 'src/db/models/options/options';
 
 
 @Injectable()
@@ -22,9 +23,17 @@ export class OptionsService {
       const data = {
         question_id: question_id,
         title: dto.title,
-    }
-      await this.optionsRepository.create(data);
-      return new CreateOptionResponseDto({question_id: question_id, title: dto.title});
+      }
+      const trx = await Options.startTransaction()
+      try {
+        await this.optionsRepository.create(data, trx);
+        await trx.commit()
+        return new CreateOptionResponseDto({question_id: question_id, title: dto.title});
+      } catch(e) {
+        console.log(e)
+        await trx.rollback()
+        throw e
+      }
     }
     throw new BadRequestException('option already exists');
   }
@@ -35,8 +44,16 @@ export class OptionsService {
       throw new BadRequestException('option already exists')
     }
     const data = {title: dto.title}
-    await this.optionsRepository.changeTitle(id, data);
-    return new ChangeTitleOptionResponseDto({title: dto.title});
+    const trx = await Options.startTransaction()
+    try {
+      await this.optionsRepository.update(id, data, trx);
+      await trx.commit()
+      return new ChangeTitleOptionResponseDto({title: dto.title});
+    } catch(e) {
+      console.log(e)
+      await trx.rollback()
+      throw e
+    }
   }
 
 
@@ -52,13 +69,21 @@ export class OptionsService {
     if (!option) {
       throw new BadRequestException('option not found');
     }
-    await this.optionsRepository.delete(id);
-    return new DeleteOptionResponseDto({
+    const trx = await Options.startTransaction()
+    try {
+      await this.optionsRepository.delete(id, trx);
+      await trx.commit()
+      return new DeleteOptionResponseDto({
         id: option.id,
         question_id: option.question_id,
         title: option.title,
         created_at: option.created_at,
-    });
+      });
+    } catch(e) {
+      console.log(e)
+      await trx.rollback()
+      throw e
+    }
   }
 
 }
