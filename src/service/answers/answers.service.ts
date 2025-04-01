@@ -53,11 +53,10 @@ export class AnswersService {
         question_id: question_id,
         answer: dto.answer,
       }
-      const optionsData = dto.options
       const trx = await Answers.startTransaction();
       try {
         const answer = await this.answersRepository.create(data, trx);
-        await this.answersOptionsRepository.create(answer.id, optionsData, trx)
+        await this.answersOptionsRepository.create(answer.id, dto.options, trx)
         await trx.commit()
         return new CreateAnswersResponseDto({
           survey_results_id: survey_result_id,

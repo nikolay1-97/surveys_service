@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Options } from 'src/db/models/options/options';
+import { CreateOptionsType } from 'src/db/types/options/createOptionsType';
+import { ChangeTitleOptionsType } from 'src/db/types/options/changeTitleOptionsType';
 
 
 @Injectable()
@@ -65,7 +67,7 @@ export class OptionsRepository {
     }
   }
 
-  async create(data: object, trx) {
+  async create(data: CreateOptionsType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
@@ -74,7 +76,7 @@ export class OptionsRepository {
     }
   }
 
-  async update(id: number, data: object, trx) {
+  async update(id: number, data: ChangeTitleOptionsType, trx) {
     try {
       await this.modelClass
         .query(trx)

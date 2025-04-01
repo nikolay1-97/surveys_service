@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass, PartialModelObject } from 'objection';
 import { Surveys } from 'src/db/models/surveys/surveys';
+import { CreateSurveysType } from 'src/db/types/surveys/CreateSurveysType';
+import { ChangeTitleSurveysType } from 'src/db/types/surveys/ChangeTitleSurveysType';
 
 @Injectable()
 export class SurveysRepository {
@@ -47,7 +49,7 @@ export class SurveysRepository {
     }
   }
 
-  async create(data: PartialModelObject<Surveys>, trx) {
+  async create(data: CreateSurveysType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
@@ -56,7 +58,7 @@ export class SurveysRepository {
     }
   }
 
-  async update(id: number, data: object, trx) {
+  async update(id: number, data: ChangeTitleSurveysType, trx) {
     try {
       await this.modelClass
         .query(trx)

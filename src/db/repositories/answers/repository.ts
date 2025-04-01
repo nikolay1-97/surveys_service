@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Answers } from 'src/db/models/answers/answers';
+import { CreateAnswersType } from 'src/db/types/answers/createAnswersType';
 
 
 @Injectable()
@@ -25,7 +26,7 @@ export class AnswersRepository {
       }
   }
 
-  async create(data: object, trx) {
+  async create(data: CreateAnswersType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);
       

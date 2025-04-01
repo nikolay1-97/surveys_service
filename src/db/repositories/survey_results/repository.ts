@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { SurveyResults } from 'src/db/models/survey_results/survey_results';
+import { CreateSurResType } from 'src/db/types/surveyResults/createSurResType';
 
 @Injectable()
 export class SurveyResultsRepository {
@@ -33,7 +34,7 @@ export class SurveyResultsRepository {
     }
   }
 
-  async create(data: object, trx) {
+  async create(data: CreateSurResType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {

@@ -1,6 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Questions } from 'src/db/models/questions/questions';
+import { CreateQuestionType } from 'src/db/types/questions/createQuestion';
+import { ChangeQuestion } from 'src/db/types/questions/changeQuestion';
+import { ChangeQuestionType } from 'src/db/types/questions/changeQuestionType';
 
 
 @Injectable()
@@ -48,7 +51,7 @@ export class QuestionsRepository {
     }
   }
 
-  async create(data: object, trx) {
+  async create(data: CreateQuestionType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
@@ -57,7 +60,7 @@ export class QuestionsRepository {
     }
   }
 
-  async update(id: number, data: object, trx) {
+  async update(id: number, data: ChangeQuestion | ChangeQuestionType, trx) {
     try {
       await this.modelClass
         .query(trx)

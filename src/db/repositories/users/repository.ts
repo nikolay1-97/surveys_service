@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Users } from 'src/db/models/users/users';
-
+import { CreateUsersType } from 'src/db/types/users/createUsersType';
 
 @Injectable()
 export class UsersRepository {
@@ -34,7 +34,7 @@ export class UsersRepository {
     }
   }
 
-  async create(data: object, trx) {
+  async create(data: CreateUsersType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
