@@ -16,8 +16,7 @@ import { CreateAnswersDto } from 'src/api/dto/answers/answerCreateDto';
 import { CreateAnswersResponseDto } from 'src/api/dtoResponse/answers/answersCreateResponse.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { User } from 'src/api/decorators/users/getUser';
-import { Users } from 'src/db/models/users/users';
+import { UserId } from 'src/api/decorators/users/getUserId';
 import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
 
   
@@ -33,12 +32,12 @@ import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
     @ApiResponse({ status: 200, type: CreateAnswersResponseDto })
     @Post('survey-results/:survey_results_id/questions/:question_id')
     async register(
-        @User() user: Users,
+        @UserId() userId: number,
         @Body() dto: CreateAnswersDto,
         @Param('survey_results_id', ParseIntPipe) survey_results_id: number,
         @Param('question_id', ParseIntPipe) question_id: number,
     ): Promise<CreateAnswersResponseDto> {
-        return await this.answersService.create(user.id, survey_results_id, question_id, dto);
+        return await this.answersService.create(userId, survey_results_id, question_id, dto);
         
     }
     

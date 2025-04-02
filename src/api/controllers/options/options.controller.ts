@@ -52,15 +52,15 @@ import { JwtService } from '@nestjs/jwt';
         return await this.optionsService.changeTitle(option_id, question_id, dto);
     }
 
-    @ApiResponse({ status: 200, type: [GetByQuestionIdOptionResponseDto] })
-    @Get('surveys/:survey_id/questions/:question_id')
-    async getBySurveyId(
-        @Param('survey_id', ParseIntPipe) survey_id: number,
-        @Param('question_id', ParseIntPipe) question_id: number,
-    ): Promise<GetByQuestionIdOptionResponseDto[]> {
-          return await this.optionsService.getBySurveyIdAndQuestionId(survey_id, question_id);
+    //@ApiResponse({ status: 200, type: [GetByQuestionIdOptionResponseDto] })
+    //@Get('surveys/:survey_id/questions/:question_id')
+    //async getBySurveyId(
+        //@Param('survey_id', ParseIntPipe) survey_id: number,
+        //@Param('question_id', ParseIntPipe) question_id: number,
+    //): Promise<GetByQuestionIdOptionResponseDto[]> {
+          //return await this.optionsService.getBySurveyIdAndQuestionId(survey_id, question_id);
       
-    }
+    //}
   
     @ApiTags('Admins')
     @ApiResponse({ status: 200, type: DeleteOptionResponseDto })

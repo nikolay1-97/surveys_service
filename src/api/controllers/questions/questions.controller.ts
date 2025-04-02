@@ -64,6 +64,7 @@ import { JwtService } from '@nestjs/jwt';
         return await this.questionsService.changeType(question_id, survey_id, dto);
     }
   
+    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: [GetBySurveyIdQuestionResponseDto] })
     @Get('surveys/:survey_id')
     async getBySurveyId(

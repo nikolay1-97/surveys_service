@@ -18,8 +18,8 @@ import { DeleteSurveyResultsResponseDto } from 'src/api/dtoResponse/survey_resul
 import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
-import { User } from 'src/api/decorators/users/getUser';
-import { Users } from 'src/db/models/users/users';
+import { UserId } from 'src/api/decorators/users/getUserId';
+
 
   
   @UseGuards(UserAuthGuard)
@@ -34,10 +34,10 @@ import { Users } from 'src/db/models/users/users';
     @ApiResponse({ status: 200, type: CreateSurveyResultsResponseDto })
     @Post(':survey_id')
     async register(
-        @User() user: Users,
+        @UserId() userId: number,
         @Param('survey_id', ParseIntPipe) survey_id: number,
-    ): Promise<CreateSurveyResultsResponseDto | undefined> {
-        return await this.surveyResultsService.create(user.id, survey_id);
+    ): Promise<CreateSurveyResultsResponseDto> {
+        return await this.surveyResultsService.create(userId, survey_id);
     }
   
     //@ApiTags('Users')
