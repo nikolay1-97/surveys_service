@@ -21,6 +21,17 @@ export class SurveysRepository {
     }
   }
 
+  async getAll() {
+    try {
+      const items: Surveys[] | undefined = await this.modelClass.query();
+
+      return items;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
   async getByOwnerId(owner_id: number) {
     try {
       const items: Surveys[] | undefined = await this.modelClass

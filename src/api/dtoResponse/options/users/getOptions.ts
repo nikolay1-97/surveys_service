@@ -3,24 +3,23 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
 
-export class GetByOwnerIdSurveysResponseDto {
-
+export class GetOptionsResponseDto {
   @ApiProperty()
   @IsNumber()
   readonly id: number;
-
-  @Exclude()
-  owner_id: number;
+  
+  @ApiProperty()
+  @IsNumber()
+  readonly option_id: number;
 
   @ApiProperty()
   @IsString()
   readonly title: string;
 
-  @ApiProperty()
-  @IsString()
+  @Exclude()
   readonly created_at: string;
 
-  constructor(partial: Partial<GetByOwnerIdSurveysResponseDto>) {
+  constructor(partial: Partial<GetOptionsResponseDto>) {
     Object.assign(this, partial);
   }
 }

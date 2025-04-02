@@ -6,6 +6,7 @@ import { UpdateSurveysDto } from 'src/api/dto/surveys/surveysUpdate.dto';
 import { UpdateSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysUpdateResponse.dto';
 import { DeleteSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysDeleteResponse.dto';
 import { GetByOwnerIdSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysGetByOwnerIdResp.dto';
+import { GetSurveysResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveys';
 import { Surveys } from 'src/db/models/surveys/surveys';
 
 import { plainToInstance } from 'class-transformer';
@@ -60,6 +61,12 @@ export class SurveysService {
     const surveys = await this.surveysRepository.getByOwnerId(owner_id);
 
     return plainToInstance(GetByOwnerIdSurveysResponseDto, surveys);
+  }
+
+  async getAll(): Promise<GetSurveysResponseDto[]> {
+    const surveys = await this.surveysRepository.getAll();
+
+    return plainToInstance(GetSurveysResponseDto, surveys);
   }
 
   async delete(id: number): Promise<DeleteSurveysResponseDto> {

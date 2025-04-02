@@ -42,7 +42,7 @@ import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDelet
 
 
  
-//@UseGuards(AdminAuthGuard)
+@UseGuards(AdminAuthGuard)
 @ApiTags('Admins')
 @Controller('admins/surveys')
 export class ManageSurveysController {
@@ -178,6 +178,5 @@ export class ManageSurveysController {
       return await this.optionsService.delete(id);
     }
 
-  
 }
   
