@@ -21,7 +21,7 @@ export class Questions {
 
 export class Survey {
     @ApiProperty({ type: () => Questions })
-    readonly survey: Questions;
+    readonly title: Questions;
   }
 
 

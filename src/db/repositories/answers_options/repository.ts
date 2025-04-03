@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModelClass } from 'objection';
-import { AnswersOptions } from 'src/db/models/answersOptions/answersOptions'; 
+import { AnswersOptions } from 'src/db/models/answersOptions/answersOptions';
+import { CreateAnswersOptionsType } from 'src/db/types/answersOptions/answersOptionsType'; 
 
 @Injectable()
 export class AnswersOptionsRepository {
@@ -8,26 +9,9 @@ export class AnswersOptionsRepository {
     @Inject('AnswersOptions') private modelClass: ModelClass<AnswersOptions>,
   ) {}
 
-  async create(answer_id: number, data: Array<number>, trx) {
+  async create(data: Array<CreateAnswersOptionsType>, trx) {
     try {
-      if (data.length === 1) {
-        await this.modelClass
-        .query(trx).insert({
-          answer_id: answer_id,
-          option_id: data[0],
-        })
-      }
-      else {
-        for (let cnt = 0; cnt <= data.length-1; cnt++) {
-          console.log(data[cnt])
-          console.log(data.length)
-          await this.modelClass
-          .query(trx).insert({
-            answer_id: answer_id,
-            option_id: data[cnt]
-          })
-        }
-      }
+      await this.modelClass.query(trx).insert(data);
     } catch (e) {
       console.log(e);
       throw e;
@@ -99,8 +83,13 @@ export class AnswersOptionsRepository {
                 res[email]['questions'][question]['type'] = type
             }
           }
-    
-          return res;
+          const resList = new Array()
+          
+          for (let row in res) {
+            resList.push(res[row])
+          }
+
+          return resList;
         } catch (e) {
           console.log(e);
           throw e;
@@ -161,8 +150,12 @@ export class AnswersOptionsRepository {
               
           }
         }
-  
-        return res;
+        const resList = new Array()
+        for (let row in res) {
+          resList.push(res[row])
+        }
+        
+        return resList;
       } catch (e) {
         console.log(e);
         throw e;

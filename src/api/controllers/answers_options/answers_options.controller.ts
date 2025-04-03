@@ -24,7 +24,7 @@ import { GetStatResponseDto } from 'src/api/dtoResponse/answersOptions/getStatRe
       private readonly answersOptionsService: AnswersOptionsService,
     ) {}
 
-    @ApiResponse({ status: 200, type: GetStatBySurveyIdResponseDto })
+    @ApiResponse({ status: 200, type: [GetStatBySurveyIdResponseDto] })
     @Get('surveys/:survey_id')
     async getStatBySurveyId(
         @Param('survey_id', ParseIntPipe) survey_id: number,
@@ -33,7 +33,7 @@ import { GetStatResponseDto } from 'src/api/dtoResponse/answersOptions/getStatRe
           
     }
     
-    @ApiResponse({ status: 200, type: GetStatResponseDto })
+    @ApiResponse({ status: 200, type: [GetStatResponseDto] })
     @Get()
     async getStat(
     ) {
