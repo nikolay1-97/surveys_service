@@ -21,7 +21,7 @@ import { GetOptionsResponseDto } from 'src/api/dtoResponse/options/users/getOpti
 import { GetSurveysAllInfoResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveysAllInfo';
 
 
-@ApiTags('Users')
+@ApiTags('Users/Surveys')
 @Controller('surveys')
 export class UsersSurveysController {
     constructor(
@@ -37,16 +37,16 @@ export class UsersSurveysController {
         return await this.surveysService.getAll();
     }
 
-    @ApiResponse({ status: 200, type: [GetSurveysAllInfoResponseDto] })
+    @ApiResponse({ status: 200, type: GetSurveysAllInfoResponseDto })
     @Get('allInfo')
     async getAllInfo() {
         return await this.surveysService.getAllInfo();
     }
 
     @ApiResponse({ status: 200, type: [GetQuestionsResponseDto] })
-    @Get('questions')
+    @Get(':id/questions')
     async getBySurveyId(
-      @Query('id', ParseIntPipe) id: number,
+      @Param('id', ParseIntPipe) id: number,
     ): Promise<GetQuestionsResponseDto[]> {
         return await this.questionsService.getBySurveyId(id);
           

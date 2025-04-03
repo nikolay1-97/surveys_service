@@ -8,6 +8,8 @@ import { GetByQuestionIdOptionResponseDto } from 'src/api/dtoResponse/options/op
 import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDeleteResponse.dto';
 import { plainToInstance } from 'class-transformer';
 import { Options } from 'src/db/models/options/options';
+import { CreateOptionsType } from 'src/db/types/options/createOptionsType';
+import { ChangeTitleOptionsType } from 'src/db/types/options/changeTitleOptionsType';
 
 
 @Injectable()
@@ -20,7 +22,7 @@ export class OptionsService {
     const option = await this.optionsRepository.getByQuestionIdAndTitle(question_id, dto.title);
 
     if (!option) {
-      const data = {
+      const data: CreateOptionsType = {
         question_id: question_id,
         title: dto.title,
       }
@@ -43,7 +45,7 @@ export class OptionsService {
     if (option) {
       throw new BadRequestException('option already exists')
     }
-    const data = {title: dto.title}
+    const data: ChangeTitleOptionsType = {title: dto.title}
     const trx = await Options.startTransaction()
     try {
       await this.optionsRepository.update(id, data, trx);

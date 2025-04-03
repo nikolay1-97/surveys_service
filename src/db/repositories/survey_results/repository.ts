@@ -20,32 +20,9 @@ export class SurveyResultsRepository {
     }
   }
 
-  async getByOwnerId(owner_id: number) {
-    try {
-      const items: SurveyResults[] | undefined = await this.modelClass
-        .query()
-        .select('*')
-        .where('user_id', '=', owner_id);
-
-      return items;
-    } catch (e) {
-      console.log(e);
-      throw e;
-    }
-  }
-
   async create(data: CreateSurResType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);
-    } catch (e) {
-      console.log(e);
-      throw e;
-    }
-  }
-
-  async delete(id: number, trx) {
-    try {
-      await this.modelClass.query(trx).deleteById(id);
     } catch (e) {
       console.log(e);
       throw e;

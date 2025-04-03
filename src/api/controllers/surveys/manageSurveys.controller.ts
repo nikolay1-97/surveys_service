@@ -21,7 +21,7 @@ import { UpdateSurveysDto } from 'src/api/dto/surveys/surveysUpdate.dto';
 import { UpdateSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysUpdateResponse.dto';
 import { GetByOwnerIdSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysGetByOwnerIdResp.dto';
 import { CreateQuestionResponseDto } from 'src/api/dtoResponse/questions/questionCreateResponse.dto';
-import { CreateQuestionDto } from 'src/api/dto/questions/questionCreateResponse.dto';
+import { CreateQuestionDto } from 'src/api/dto/questions/questionCreate.dto';
 import { DeleteSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysDeleteResponse.dto';
 import { ChangeQuestionQuestionDto } from 'src/api/dto/questions/questionChangeQuestion.dto';
 import { ChangeQuestionQuestionResponseDto } from 'src/api/dtoResponse/questions/questionChangeQuestionResponse.dto';
@@ -43,7 +43,7 @@ import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDelet
 
  
 @UseGuards(AdminAuthGuard)
-@ApiTags('Admins')
+@ApiTags('Admins/Surveys')
 @Controller('admins/surveys')
 export class ManageSurveysController {
     constructor(
@@ -60,11 +60,11 @@ export class ManageSurveysController {
     }
   
     @ApiResponse({ status: 200, type: UpdateSurveysResponseDto })
-    @Patch()
+    @Patch(':id')
     async changeTitle(
       @Body() dto: UpdateSurveysDto,
       @UserId() userId: number,
-      @Query('id', ParseIntPipe) id: number,
+      @Param('id', ParseIntPipe) id: number,
     ): Promise<UpdateSurveysResponseDto> {
         return await this.surveysService.changeTitle(id, userId, dto);
     }
@@ -78,14 +78,13 @@ export class ManageSurveysController {
     }
   
     @ApiResponse({ status: 200, type: DeleteSurveysResponseDto })
-    @Delete()
+    @Delete(':id')
     async delete(
-      @Query('id', ParseIntPipe) id: number,
+      @Param('id', ParseIntPipe) id: number,
     ): Promise<DeleteSurveysResponseDto> {
       return await this.surveysService.delete(id);
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: CreateQuestionResponseDto })
     @Post(':id/questions')
     async create(
@@ -95,7 +94,6 @@ export class ManageSurveysController {
       return await this.questionsService.create(id, dto);
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: ChangeQuestionQuestionResponseDto })
     @Patch(':id/questions/:question_id')
     async changeQuestion(
@@ -107,19 +105,16 @@ export class ManageSurveysController {
       return await this.questionsService.changeQuestion(question_id, id, dto);
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: ChangeTypeQuestionResponseDto })
-    @Patch(':id/questions/:question_id')
+    @Patch('questions/:question_id')
     async changeType(
       @Body() dto: ChangeTypeQuestionDto,
-      @Param('id', ParseIntPipe) id: number,
       @Param('question_id', ParseIntPipe) question_id: number,
     ): Promise<ChangeTypeQuestionResponseDto> {
             
-      return await this.questionsService.changeType(question_id, id, dto);
+      return await this.questionsService.changeType(question_id, dto);
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: [GetBySurveyIdQuestionResponseDto] })
     @Get(':id/questions')
     async getBySurveyId(
@@ -129,7 +124,6 @@ export class ManageSurveysController {
           
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: DeleteQuestionResponseDto })
     @Delete('questions/:id')
     async deleteQuestion(
@@ -138,7 +132,6 @@ export class ManageSurveysController {
       return await this.questionsService.delete(id);
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: CreateOptionResponseDto })
     @Post('questions/:id/options')
     async createOption(
@@ -148,7 +141,6 @@ export class ManageSurveysController {
         return await this.optionsService.create(id, dto);
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: ChangeTitleOptionResponseDto })
     @Patch('questions/:question_id/options/:id')
     async changeTitleOption(
@@ -169,7 +161,6 @@ export class ManageSurveysController {
           
     }
 
-    @ApiTags('Admins')
     @ApiResponse({ status: 200, type: DeleteOptionResponseDto })
     @Delete('options/:id')
     async deleteOption(

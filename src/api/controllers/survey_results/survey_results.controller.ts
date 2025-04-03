@@ -7,6 +7,7 @@ import {
     Body,
     Req,
     Param,
+    Query,
     ParseIntPipe,
     UseGuards,
   } from '@nestjs/common';
@@ -21,8 +22,8 @@ import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
 import { UserId } from 'src/api/decorators/users/getUserId';
 
 
-  
   @UseGuards(UserAuthGuard)
+  @ApiTags('Users/SurveyResults')
   @Controller('survey-results')
   export class SurveyResultsController {
     constructor(
@@ -30,7 +31,6 @@ import { UserId } from 'src/api/decorators/users/getUserId';
       private readonly jwtService: JwtService,
     ) {}
   
-    @ApiTags('Users')
     @ApiResponse({ status: 200, type: CreateSurveyResultsResponseDto })
     @Post(':survey_id')
     async register(
@@ -38,31 +38,6 @@ import { UserId } from 'src/api/decorators/users/getUserId';
         @Param('survey_id', ParseIntPipe) survey_id: number,
     ): Promise<CreateSurveyResultsResponseDto> {
         return await this.surveyResultsService.create(userId, survey_id);
-    }
-  
-    //@ApiTags('Users')
-    //@ApiResponse({ status: 200, type: [GetByUserIdSurveyResultsResponseDto] })
-    //@Get()
-    //async getListByOwnerId(
-      //@Req() request: Request,
-    //): Promise<GetByUserIdSurveyResultsResponseDto[] | undefined> {
-      //const token = request.headers.authorization;
-      //if (token) {
-        //const payload = this.jwtService.decode(token.substring(7, token.length));
-        //const user_id = payload.sub;
-        //if (user_id) {
-          //return await this.surveyResultsService.getByOwnerId(user_id);
-        //}
-      //}
-    //}
-  
-    @ApiTags('Admins')
-    @ApiResponse({ status: 200, type: DeleteSurveyResultsResponseDto })
-    @Delete(':surveyResultId')
-    async delete(
-      @Param('surveyResultId', ParseIntPipe) surveyResultId: number,
-    ): Promise<DeleteSurveyResultsResponseDto> {
-      return await this.surveyResultsService.delete(surveyResultId);
     }
   }
   

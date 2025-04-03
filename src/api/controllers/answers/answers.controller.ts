@@ -21,7 +21,7 @@ import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
 
   
   @UseGuards(UserAuthGuard)
-  @ApiTags('Users')
+  @ApiTags('Users/Answers')
   @Controller('answers')
   export class AnswersController {
     constructor(
@@ -30,14 +30,12 @@ import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
     ) {}
   
     @ApiResponse({ status: 200, type: CreateAnswersResponseDto })
-    @Post('survey-results/:survey_results_id/questions/:question_id')
+    @Post()
     async register(
         @UserId() userId: number,
         @Body() dto: CreateAnswersDto,
-        @Param('survey_results_id', ParseIntPipe) survey_results_id: number,
-        @Param('question_id', ParseIntPipe) question_id: number,
     ): Promise<CreateAnswersResponseDto> {
-        return await this.answersService.create(userId, survey_results_id, question_id, dto);
+        return await this.answersService.create(userId, dto);
         
     }
     

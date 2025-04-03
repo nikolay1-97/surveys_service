@@ -8,6 +8,8 @@ import { DeleteSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysDel
 import { GetByOwnerIdSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysGetByOwnerIdResp.dto';
 import { GetSurveysResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveys';
 import { Surveys } from 'src/db/models/surveys/surveys';
+import { CreateSurveysType } from 'src/db/types/surveys/CreateSurveysType';
+import { ChangeTitleSurveysType } from 'src/db/types/surveys/ChangeTitleSurveysType';
 
 import { plainToInstance } from 'class-transformer';
 
@@ -21,7 +23,7 @@ export class SurveysService {
     const survey = await this.surveysRepository.getByTitle(dto.title);
 
     if (!survey) {
-      const data = {
+      const data: CreateSurveysType = {
         owner_id: owner_id,
         title: dto.title
       }
@@ -44,7 +46,7 @@ export class SurveysService {
     if (survey) {
       throw new BadRequestException('survey already exists')
     }
-    const data = {title: dto.title}
+    const data: ChangeTitleSurveysType = {title: dto.title}
     const trx = await Surveys.startTransaction()
     try {
       await this.surveysRepository.update(id, data, trx);

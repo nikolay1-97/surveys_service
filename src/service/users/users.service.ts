@@ -4,6 +4,7 @@ import { CreateUserDto } from 'src/api/dto/users/userCreate.dto';
 import { CreateUserResponseDto } from 'src/api/dtoResponse/user/userCreateResponse.dto';
 import { PasswordService } from 'src/feature-md/password/password.service';
 import { Users } from 'src/db/models/users/users';
+import { CreateUsersType } from 'src/db/types/users/createUsersType';
 
 
 @Injectable()
@@ -18,7 +19,7 @@ export class UsersService {
       dto.email,
     );
     if (!user) {
-      const data = {
+      const data: CreateUsersType = {
         email: dto.email,
         password: await this.passwordService.getPasswordHash(dto.password),
       }

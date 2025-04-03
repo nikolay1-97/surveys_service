@@ -83,13 +83,8 @@ export class AnswersOptionsRepository {
                 res[email]['questions'][question]['type'] = type
             }
           }
-          const resList = new Array()
-          
-          for (let row in res) {
-            resList.push(res[row])
-          }
 
-          return resList;
+          return res;
         } catch (e) {
           console.log(e);
           throw e;
@@ -150,12 +145,8 @@ export class AnswersOptionsRepository {
               
           }
         }
-        const resList = new Array()
-        for (let row in res) {
-          resList.push(res[row])
-        }
-        
-        return resList;
+
+        return res;
       } catch (e) {
         console.log(e);
         throw e;

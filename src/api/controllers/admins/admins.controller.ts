@@ -5,7 +5,7 @@ import { LoginAdminsResponseDto } from 'src/api/dtoResponse/admins/adminsLoginRe
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
-@ApiTags('Admins')
+@ApiTags('Admins/Auth')
 @Controller('admins')
 export class AdminsController {
   constructor(private readonly adminsAuthService: AdminsAuthService) {}

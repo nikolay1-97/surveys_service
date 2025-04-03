@@ -164,12 +164,8 @@ export class SurveysRepository {
           res[survey_id]['questions'][question_id]['options'][option_id] = {title: option}
         }
       }
-      const resList = new Array()
-      for (let row in res) {
-        resList.push(res[row])
-      }
       
-      return resList
+      return res
     } catch (e) {
       console.log(e);
       throw e;

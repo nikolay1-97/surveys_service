@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { QuestionsRepository } from 'src/db/repositories/questions/repository';
-import { CreateQuestionDto } from 'src/api/dto/questions/questionCreateResponse.dto';
+import { CreateQuestionDto } from 'src/api/dto/questions/questionCreate.dto';
 import { CreateQuestionResponseDto } from 'src/api/dtoResponse/questions/questionCreateResponse.dto';
 import { ChangeQuestionQuestionDto } from 'src/api/dto/questions/questionChangeQuestion.dto';
 import { ChangeQuestionQuestionResponseDto } from 'src/api/dtoResponse/questions/questionChangeQuestionResponse.dto';
@@ -10,6 +10,9 @@ import { GetBySurveyIdQuestionResponseDto } from 'src/api/dtoResponse/questions/
 import { DeleteQuestionResponseDto } from 'src/api/dtoResponse/questions/questionDeleteResponse.dto';
 import { plainToInstance } from 'class-transformer';
 import { Questions } from 'src/db/models/questions/questions';
+import { CreateQuestionType } from 'src/db/types/questions/createQuestion';
+import { ChangeQuestion } from 'src/db/types/questions/changeQuestion';
+import { ChangeQuestionType } from 'src/db/types/questions/changeQuestionType';
 
 
 @Injectable()
@@ -22,7 +25,7 @@ export class QuestionsService {
     const question = await this.questionsRepository.getBySurveyIdAndQuestion(survey_id, dto.question);
 
     if (!question) {
-      const data = {
+      const data: CreateQuestionType = {
         survey_id: survey_id,
         question: dto.question,
         type: dto.type,
@@ -46,7 +49,7 @@ export class QuestionsService {
     if (question) {
       throw new BadRequestException('question already exists')
     }
-    const data = {question: dto.question}
+    const data: ChangeQuestion = {question: dto.question}
     const trx = await Questions.startTransaction()
     try {
       await this.questionsRepository.update(id, data, trx);
@@ -59,8 +62,8 @@ export class QuestionsService {
     }
   }
 
-  async changeType(id: number, survey_id: number, dto: ChangeTypeQuestionDto): Promise<ChangeTypeQuestionResponseDto> {
-    const data = {type: dto.type}
+  async changeType(id: number, dto: ChangeTypeQuestionDto): Promise<ChangeTypeQuestionResponseDto> {
+    const data: ChangeQuestionType = {type: dto.type}
     const trx = await Questions.startTransaction()
     try {
       await this.questionsRepository.update(id, data, trx);

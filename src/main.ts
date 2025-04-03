@@ -12,8 +12,13 @@ async function bootstrap() {
     .setTitle('Сервис онлайн опросов')
     .setDescription('сервис онлайн опросов')
     .setVersion('1.0')
-    .addTag('Admins')
+    .addTag('Admins/Auth')
+    .addTag('Admins/AnswersOptions')
+    .addTag('Admins/Surveys')
     .addTag('Users')
+    .addTag('Users/Surveys')
+    .addTag('Users/Answers')
+    .addTag('Users/SurveyResults')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

@@ -7,6 +7,7 @@ import {
     Body,
     Req,
     Param,
+    Query,
     ParseIntPipe,
     UseGuards,
   } from '@nestjs/common';
@@ -17,15 +18,15 @@ import { GetStatBySurveyIdResponseDto } from 'src/api/dtoResponse/answersOptions
 import { GetStatResponseDto } from 'src/api/dtoResponse/answersOptions/getStatResponse';
 
   
-  @ApiTags('Users')
+  @ApiTags('Admins/AnswersOptions')
   @Controller('answers-options')
   export class AnswersOptionsController {
     constructor(
       private readonly answersOptionsService: AnswersOptionsService,
     ) {}
 
-    @ApiResponse({ status: 200, type: [GetStatBySurveyIdResponseDto] })
-    @Get('surveys/:survey_id')
+    @ApiResponse({ status: 200, type: GetStatBySurveyIdResponseDto })
+    @Get(':survey_id')
     async getStatBySurveyId(
         @Param('survey_id', ParseIntPipe) survey_id: number,
     ) {
