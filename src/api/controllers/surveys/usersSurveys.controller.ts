@@ -18,6 +18,7 @@ import { OptionsService } from 'src/service/options/options.service';
 import { GetSurveysResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveys';
 import { GetQuestionsResponseDto } from 'src/api/dtoResponse/questions/users/getQuestions';
 import { GetOptionsResponseDto } from 'src/api/dtoResponse/options/users/getOptions';
+import { GetSurveysAllInfoResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveysAllInfo';
 
 
 @ApiTags('Users')
@@ -34,6 +35,12 @@ export class UsersSurveysController {
     @Get()
     async getAll(): Promise<GetSurveysResponseDto[]> {
         return await this.surveysService.getAll();
+    }
+
+    @ApiResponse({ status: 200, type: [GetSurveysAllInfoResponseDto] })
+    @Get('allInfo')
+    async getAllInfo() {
+        return await this.surveysService.getAllInfo();
     }
 
     @ApiResponse({ status: 200, type: [GetQuestionsResponseDto] })

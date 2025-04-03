@@ -69,6 +69,12 @@ export class SurveysService {
     return plainToInstance(GetSurveysResponseDto, surveys);
   }
 
+  async getAllInfo() {
+    const surveys = await this.surveysRepository.getAllInfo();
+
+    return surveys;
+  }
+
   async delete(id: number): Promise<DeleteSurveysResponseDto> {
     const survey = await this.surveysRepository.getById(id);
 

@@ -112,4 +112,68 @@ export class SurveysRepository {
     }
   }
 
+  async getAllInfo() {
+    try {
+      const items: Surveys[] | undefined = await this.modelClass
+        .query()
+        .join('questions', 'surveys.id', '=', 'questions.survey_id')
+        .join('options', 'questions.id', '=', 'options.question_id')
+        .select(
+          'surveys.id as survey_id',
+          'surveys.title as survey',
+          'questions.id as question_id',
+          'question',
+          'options.id as option_id',
+          'options.title as option',
+        );
+
+      if (items.length === 0) {
+        return [];
+      };
+
+
+      const res = {}
+
+      for (let cnt = 0; cnt <= items.length-1; cnt++) {
+        let survey_id = items[cnt]['survey_id']
+        let survey = items[cnt]['survey']
+        let question_id = items[cnt]['question_id']
+        let question = items[cnt]['question']
+        let option_id = items[cnt]['option_id']
+        let option = items[cnt]['option']
+
+        if (survey_id in res) {
+          if (question_id in res[survey_id]['questions']) {
+            res[survey_id]['questions'][question_id]['options'][option_id] = {title: option}
+          }
+          else {
+            res[survey_id]['questions'][question_id] = {}
+            res[survey_id]['questions'][question_id]['question'] = question
+            res[survey_id]['questions'][question_id]['options'] = {}
+            res[survey_id]['questions'][question_id]['options'][option_id] = {title: option}
+          }
+
+        }
+        else {
+          res[survey_id] = {}
+          res[survey_id]['title'] = survey
+          res[survey_id]['questions'] = {}
+          res[survey_id]['questions'][question_id] = {}
+          res[survey_id]['questions'][question_id]['question'] = question
+          res[survey_id]['questions'][question_id]['options'] = {}
+          res[survey_id]['questions'][question_id]['options'][option_id] = {title: option}
+        }
+      }
+      const resList = new Array()
+      for (let row in res) {
+        resList.push(res[row])
+      }
+      
+      return resList
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
 }
