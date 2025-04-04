@@ -1,5 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { OptionsRepository } from 'src/db/repositories/options/repository';
+import { QuestionsRepository } from 'src/db/repositories/questions/repository';
 import { CreateOptionDto } from 'src/api/dto/options/optionCreate.dto';
 import { CreateOptionResponseDto } from 'src/api/dtoResponse/options/optionCreateResponse.dto';
 import { ChangeTitleOptionDto } from 'src/api/dto/options/optionChangeTitle.dto';
@@ -16,9 +17,14 @@ import { ChangeTitleOptionsType } from 'src/db/types/options/changeTitleOptionsT
 export class OptionsService {
   constructor(
     private readonly optionsRepository: OptionsRepository,
+    private readonly questionRepository: QuestionsRepository,
   ) {}
 
-  async create(question_id: number, dto: CreateOptionDto): Promise<CreateOptionResponseDto> {
+  async create(question_id: number, owner_id: number, dto: CreateOptionDto): Promise<CreateOptionResponseDto> {
+    const question = await this.questionRepository.getByIdOwnerId(question_id, owner_id)
+    if (!question) {
+      throw new BadRequestException('question not found')
+    }
     const option = await this.optionsRepository.getByQuestionIdAndTitle(question_id, dto.title);
 
     if (!option) {
@@ -40,7 +46,11 @@ export class OptionsService {
     throw new BadRequestException('option already exists');
   }
 
-  async changeTitle(id: number, question_id: number, dto: ChangeTitleOptionDto): Promise<ChangeTitleOptionResponseDto> {
+  async changeTitle(id: number, question_id: number, owner_id: number, dto: ChangeTitleOptionDto): Promise<ChangeTitleOptionResponseDto> {
+    const opt = await this.optionsRepository.getByIdQuestionIdOwnerId(id, question_id, owner_id)
+    if (!opt) {
+      throw new BadRequestException('option not found')
+    }
     const option = await this.optionsRepository.getByQuestionIdAndTitle(question_id, dto.title)
     if (option) {
       throw new BadRequestException('option already exists')
@@ -65,8 +75,8 @@ export class OptionsService {
     return plainToInstance(GetByQuestionIdOptionResponseDto, options);
   }
 
-  async delete(id: number): Promise<DeleteOptionResponseDto> {
-    const option = await this.optionsRepository.getById(id);
+  async delete(id: number, owner_id: number): Promise<DeleteOptionResponseDto> {
+    const option = await this.optionsRepository.getByIdOwnerId(id, owner_id);
 
     if (!option) {
       throw new BadRequestException('option not found');

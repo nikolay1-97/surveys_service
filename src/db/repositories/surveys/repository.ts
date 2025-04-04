@@ -46,6 +46,21 @@ export class SurveysRepository {
     }
   }
 
+  async getItemByIdOwnerId(id: number, owner_id: number) {
+    try {
+      const items: Surveys[] | undefined = await this.modelClass
+        .query()
+        .select('*')
+        .where('id', '=', id)
+        .where('owner_id', '=', owner_id);
+
+      return items[0];
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
   async getByTitle(title: string) {
     try {
       const items: Surveys[] | undefined = await this.modelClass

@@ -25,11 +25,11 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     @ApiResponse({ status: 201, type: CreateUserResponseDto })
     @Post()
     async register(@Body() dto: CreateUserDto): Promise<CreateUserResponseDto> {
-      await this.userService.create({
+      const user = await this.userService.create({
         email: dto.email,
         password: dto.password,
       });
-      return new CreateUserResponseDto({ email: dto.email });
+      return new CreateUserResponseDto(user);
     }
 
     @ApiResponse({ status: 200, type: LoginUsersResponseDto })

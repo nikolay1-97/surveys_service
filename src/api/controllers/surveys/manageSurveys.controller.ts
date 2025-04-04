@@ -41,7 +41,6 @@ import { GetByQuestionIdOptionResponseDto } from 'src/api/dtoResponse/options/op
 import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDeleteResponse.dto';
 
 
- 
 @UseGuards(AdminAuthGuard)
 @ApiTags('Admins/Surveys')
 @Controller('admins/surveys')
@@ -56,7 +55,8 @@ export class ManageSurveysController {
     @ApiResponse({ status: 200, type: CreateSurveysResponseDto })
     @Post()
     async register(@Body() dto: CreateSurveysDto, @UserId() userId: number): Promise<CreateSurveysResponseDto> {
-        return await this.surveysService.create(userId, dto);
+        const survey =  await this.surveysService.create(userId, dto);
+        return new CreateSurveysResponseDto(survey)
     }
   
     @ApiResponse({ status: 200, type: UpdateSurveysResponseDto })
@@ -66,7 +66,8 @@ export class ManageSurveysController {
       @UserId() userId: number,
       @Param('id', ParseIntPipe) id: number,
     ): Promise<UpdateSurveysResponseDto> {
-        return await this.surveysService.changeTitle(id, userId, dto);
+        const survey = await this.surveysService.changeTitle(id, userId, dto);
+        return new UpdateSurveysResponseDto(survey);
     }
   
     @ApiResponse({ status: 200, type: [GetByOwnerIdSurveysResponseDto] })
@@ -80,39 +81,47 @@ export class ManageSurveysController {
     @ApiResponse({ status: 200, type: DeleteSurveysResponseDto })
     @Delete(':id')
     async delete(
+      @UserId() admin_id: number,
       @Param('id', ParseIntPipe) id: number,
     ): Promise<DeleteSurveysResponseDto> {
-      return await this.surveysService.delete(id);
+      const survey = await this.surveysService.delete(id, admin_id);
+      return new DeleteSurveysResponseDto(survey);
     }
 
     @ApiResponse({ status: 200, type: CreateQuestionResponseDto })
     @Post(':id/questions')
     async create(
+      @UserId() admin_id: number,
       @Body() dto: CreateQuestionDto,
       @Param('id', ParseIntPipe) id: number,
     ): Promise<CreateQuestionResponseDto> {
-      return await this.questionsService.create(id, dto);
+      const question = await this.questionsService.create(id, admin_id, dto);
+      return new CreateQuestionResponseDto(question);
     }
 
     @ApiResponse({ status: 200, type: ChangeQuestionQuestionResponseDto })
     @Patch(':id/questions/:question_id')
     async changeQuestion(
+      @UserId() admin_id: number,
       @Body() dto: ChangeQuestionQuestionDto,
       @Param('id', ParseIntPipe) id: number,
       @Param('question_id', ParseIntPipe) question_id: number,
     ): Promise<ChangeQuestionQuestionResponseDto> {
             
-      return await this.questionsService.changeQuestion(question_id, id, dto);
+      const question = await this.questionsService.changeQuestion(question_id, id, admin_id, dto);
+      return new ChangeQuestionQuestionResponseDto(question)
     }
 
     @ApiResponse({ status: 200, type: ChangeTypeQuestionResponseDto })
     @Patch('questions/:question_id')
     async changeType(
+      @UserId() admin_id: number,
       @Body() dto: ChangeTypeQuestionDto,
       @Param('question_id', ParseIntPipe) question_id: number,
     ): Promise<ChangeTypeQuestionResponseDto> {
             
-      return await this.questionsService.changeType(question_id, dto);
+      const question = await this.questionsService.changeType(question_id, admin_id, dto);
+      return new ChangeTypeQuestionResponseDto(question)
     }
 
     @ApiResponse({ status: 200, type: [GetBySurveyIdQuestionResponseDto] })
@@ -127,29 +136,35 @@ export class ManageSurveysController {
     @ApiResponse({ status: 200, type: DeleteQuestionResponseDto })
     @Delete('questions/:id')
     async deleteQuestion(
+      @UserId() admin_id: number,
       @Param('id', ParseIntPipe) id: number,
     ): Promise<DeleteQuestionResponseDto> {
-      return await this.questionsService.delete(id);
+      const question = await this.questionsService.delete(id, admin_id);
+      return new DeleteQuestionResponseDto(question)
     }
 
     @ApiResponse({ status: 200, type: CreateOptionResponseDto })
     @Post('questions/:id/options')
     async createOption(
+      @UserId() admin_id: number,
       @Body() dto: CreateOptionDto,
       @Param('id', ParseIntPipe) id: number,
     ): Promise<CreateOptionResponseDto> {
-        return await this.optionsService.create(id, dto);
+        const option = await this.optionsService.create(id, admin_id, dto);
+        return new CreateOptionResponseDto(option)
     }
 
     @ApiResponse({ status: 200, type: ChangeTitleOptionResponseDto })
     @Patch('questions/:question_id/options/:id')
     async changeTitleOption(
+      @UserId() admin_id: number,
       @Body() dto: ChangeTitleOptionDto,
       @Param('question_id', ParseIntPipe) question_id: number,
       @Param('id', ParseIntPipe) id: number,
     ): Promise<ChangeTitleOptionResponseDto> {
             
-      return await this.optionsService.changeTitle(id, question_id, dto);
+      const option = await this.optionsService.changeTitle(id, question_id, admin_id, dto);
+      return new ChangeTitleOptionResponseDto(option);
     }
 
     @ApiResponse({ status: 200, type: [GetByQuestionIdOptionResponseDto] })
@@ -164,9 +179,11 @@ export class ManageSurveysController {
     @ApiResponse({ status: 200, type: DeleteOptionResponseDto })
     @Delete('options/:id')
     async deleteOption(
+      @UserId() admin_id: number,
       @Param('id', ParseIntPipe) id: number,
     ): Promise<DeleteOptionResponseDto> {
-      return await this.optionsService.delete(id);
+      const option = await this.optionsService.delete(id, admin_id);
+      return new DeleteOptionResponseDto(option);
     }
 
 }

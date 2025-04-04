@@ -42,6 +42,10 @@ export class SurveysService {
   }
 
   async changeTitle(id: number, admin_id: number, dto: UpdateSurveysDto): Promise<UpdateSurveysResponseDto> {
+    const surveyByOwnerId = await this.surveysRepository.getItemByIdOwnerId(id, admin_id)
+    if (!surveyByOwnerId) {
+      throw new BadRequestException('survey not found')
+    }
     const survey = await this.surveysRepository.getByTitle(dto.title)
     if (survey) {
       throw new BadRequestException('survey already exists')
@@ -77,8 +81,8 @@ export class SurveysService {
     return surveys;
   }
 
-  async delete(id: number): Promise<DeleteSurveysResponseDto> {
-    const survey = await this.surveysRepository.getById(id);
+  async delete(id: number, owner_id: number): Promise<DeleteSurveysResponseDto> {
+    const survey = await this.surveysRepository.getItemByIdOwnerId(id, owner_id);
 
     if (!survey) {
       throw new BadRequestException('survey not found');

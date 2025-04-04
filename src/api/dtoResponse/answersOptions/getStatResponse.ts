@@ -1,13 +1,15 @@
-import { IsString, IsEmail, MinLength } from 'class-validator';
+import { IsString, IsNumber, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Question {
     @ApiProperty()
     readonly options: [string];
 
+    @IsString()
     @ApiProperty()
     readonly answer: string;
 
+    @IsString()
     @ApiProperty()
     readonly type: string;
 }
@@ -32,6 +34,10 @@ export class Surveys {
 
 
 export class GetStatResponseDto {
+  @IsNumber()
+  @ApiProperty()
+  readonly count: number;
+
   @ApiProperty({ type: () => Surveys })
   readonly email: Surveys;
 }

@@ -83,7 +83,7 @@ export class AnswersOptionsRepository {
                 res[email]['questions'][question]['type'] = type
             }
           }
-
+          res['count'] = Object.keys(res).length;
           return res;
         } catch (e) {
           console.log(e);
@@ -145,7 +145,7 @@ export class AnswersOptionsRepository {
               
           }
         }
-
+        res['count'] = Object.keys(res).length
         return res;
       } catch (e) {
         console.log(e);

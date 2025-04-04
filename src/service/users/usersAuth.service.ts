@@ -13,7 +13,7 @@ export class UsersAuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async validateUser(email: string, password: string) {
+  private async validateUser(email: string, password: string) {
     const user = await this.usersRepository.getByEmail(email);
     if (user) {
       const isValid = await this.passwordService.verify_password(

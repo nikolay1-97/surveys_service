@@ -51,6 +51,26 @@ export class QuestionsRepository {
     }
   }
 
+  async getByIdOwnerId(
+      id: number,
+      owner_id: number,
+    ) {
+      try {
+        const items: Questions[] | undefined = await this.modelClass
+          .query()
+          .where('questions.id', '=', id)
+          .where('admins.id', '=', owner_id)
+          .join('surveys', 'surveys.id', '=', 'questions.survey_id')
+          .join('admins', 'admins.id', '=', 'surveys.owner_id')
+          .select('questions.id');
+  
+        return items[0];
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    }
+
   async create(data: CreateQuestionType, trx) {
     try {
       return await this.modelClass.query(trx).insert(data);

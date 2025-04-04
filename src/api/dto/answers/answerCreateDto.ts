@@ -15,8 +15,8 @@ export class CreateAnswersDto {
   @IsString()
   readonly answer: string;
   
-  @ApiProperty()
   @IsArray()
-  readonly options: [number]
+  @ApiProperty()
+  readonly options: Array<number>
 
 }

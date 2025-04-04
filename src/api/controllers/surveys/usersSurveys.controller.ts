@@ -38,7 +38,7 @@ export class UsersSurveysController {
     }
 
     @ApiResponse({ status: 200, type: GetSurveysAllInfoResponseDto })
-    @Get('allInfo')
+    @Get('all-info')
     async getAllInfo() {
         return await this.surveysService.getAllInfo();
     }

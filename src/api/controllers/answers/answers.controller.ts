@@ -35,7 +35,8 @@ import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
         @UserId() userId: number,
         @Body() dto: CreateAnswersDto,
     ): Promise<CreateAnswersResponseDto> {
-        return await this.answersService.create(userId, dto);
+        const answer = await this.answersService.create(userId, dto);
+        return new CreateAnswersResponseDto(answer);
         
     }
     

@@ -4,7 +4,6 @@ import { FeatureMdModule } from './feature-md/feature-md.module';
 import { UsersModule } from './modules/users/users.module';
 import { SurveysModule } from './modules/surveys/surveys.module';
 import { AdminsModule } from './modules/admins/admins.module';
-import { OptionsModule } from './modules/options/options.module';
 import { SurveyResultsModule } from './modules/survey_results/survey_results.module';
 import { AnswersModule } from './modules/answers/answer.module';
 import { AnswersOptionsModule } from './modules/answers_options/answers_options.module';
@@ -20,8 +19,6 @@ import configuration from './configuration';
     AdminsModule,
     UsersModule,
     SurveysModule,
-    //QuestionsModule,
-    //OptionsModule,
     SurveyResultsModule,
     AnswersModule,
     AnswersOptionsModule,

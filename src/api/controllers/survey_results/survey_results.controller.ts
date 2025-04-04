@@ -37,7 +37,8 @@ import { UserId } from 'src/api/decorators/users/getUserId';
         @UserId() userId: number,
         @Param('survey_id', ParseIntPipe) survey_id: number,
     ): Promise<CreateSurveyResultsResponseDto> {
-        return await this.surveyResultsService.create(userId, survey_id);
+        const survey_result = await this.surveyResultsService.create(userId, survey_id);
+        return new CreateSurveyResultsResponseDto(survey_result);
     }
   }
   

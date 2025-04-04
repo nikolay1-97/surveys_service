@@ -120,4 +120,48 @@ export class OptionsRepository {
       }
     }
 
+  async getByIdQuestionIdOwnerId(
+    id: number,
+    question_id: number,
+    owner_id: number,
+  ) {
+      try {
+        const items: Options[] | undefined = await this.modelClass
+          .query()
+          .where('options.id', '=', id)
+          .where('questions.id', '=', question_id)
+          .where('admins.id', '=', owner_id)
+          .join('questions', 'questions.id', '=', 'options.question_id')
+          .join('surveys', 'surveys.id', '=', 'questions.survey_id')
+          .join('admins', 'admins.id', '=', 'surveys.owner_id')
+          .select('options.id');
+      
+        return items[0];
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    }
+
+  async getByIdOwnerId(
+    id: number,
+    owner_id: number,
+  ) {
+      try {
+        const items: Options[] | undefined = await this.modelClass
+          .query()
+          .where('options.id', '=', id)
+          .where('admins.id', '=', owner_id)
+          .join('questions', 'questions.id', '=', 'options.question_id')
+          .join('surveys', 'surveys.id', '=', 'questions.survey_id')
+          .join('admins', 'admins.id', '=', 'surveys.owner_id')
+          .select('options.id');
+        
+        return items[0];
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+  }
+
 }

@@ -13,7 +13,7 @@ export class AdminsAuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async validateUser(email: string, password: string) {
+  private async validateUser(email: string, password: string) {
     const admin = await this.adminRepository.getByEmail(email);
     if (admin) {
       const isValid = await this.passwordService.verify_password(

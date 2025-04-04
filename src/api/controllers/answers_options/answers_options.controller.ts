@@ -34,7 +34,7 @@ import { GetStatResponseDto } from 'src/api/dtoResponse/answersOptions/getStatRe
           
     }
     
-    @ApiResponse({ status: 200, type: [GetStatResponseDto] })
+    @ApiResponse({ status: 200, type: GetStatResponseDto })
     @Get()
     async getStat(
     ) {
