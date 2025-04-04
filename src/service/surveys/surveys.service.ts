@@ -15,55 +15,65 @@ import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class SurveysService {
-  constructor(
-    private readonly surveysRepository: SurveysRepository,
-  ) {}
+  constructor(private readonly surveysRepository: SurveysRepository) {}
 
-  async create(owner_id: number, dto: CreateSurveysDto): Promise<CreateSurveysResponseDto> {
+  async create(
+    owner_id: number,
+    dto: CreateSurveysDto,
+  ): Promise<CreateSurveysResponseDto> {
     const survey = await this.surveysRepository.getByTitle(dto.title);
 
     if (!survey) {
       const data: CreateSurveysType = {
         owner_id: owner_id,
-        title: dto.title
-      }
-      const trx = await Surveys.startTransaction()
+        title: dto.title,
+      };
+      const trx = await Surveys.startTransaction();
       try {
         await this.surveysRepository.create(data, trx);
-        await trx.commit()
-        return new CreateSurveysResponseDto({title: dto.title});
-      } catch(e) {
-        console.log(e)
-        await trx.rollback()
-        throw e
+        await trx.commit();
+        return new CreateSurveysResponseDto({ title: dto.title });
+      } catch (e) {
+        console.log(e);
+        await trx.rollback();
+        throw e;
       }
     }
     throw new BadRequestException('survey already exists');
   }
 
-  async changeTitle(id: number, admin_id: number, dto: UpdateSurveysDto): Promise<UpdateSurveysResponseDto> {
-    const surveyByOwnerId = await this.surveysRepository.getItemByIdOwnerId(id, admin_id)
+  async changeTitle(
+    id: number,
+    admin_id: number,
+    dto: UpdateSurveysDto,
+  ): Promise<UpdateSurveysResponseDto> {
+    const surveyByOwnerId = await this.surveysRepository.getItemByIdOwnerId(
+      id,
+      admin_id,
+    );
     if (!surveyByOwnerId) {
-      throw new BadRequestException('survey not found')
+      throw new BadRequestException('survey not found');
     }
-    const survey = await this.surveysRepository.getByTitle(dto.title)
+    const survey = await this.surveysRepository.getByTitle(dto.title);
     if (survey) {
-      throw new BadRequestException('survey already exists')
+      throw new BadRequestException('survey already exists');
     }
-    const data: ChangeTitleSurveysType = {title: dto.title}
-    const trx = await Surveys.startTransaction()
+    const data: ChangeTitleSurveysType = { title: dto.title };
+    const trx = await Surveys.startTransaction();
     try {
       await this.surveysRepository.update(id, data, trx);
-      await trx.commit()
-      return new UpdateSurveysResponseDto({title: dto.title});
-    } catch(e) {
-      console.log(e)
-      await trx.rollback()
-      throw e
+      await trx.commit();
+      return new UpdateSurveysResponseDto({ title: dto.title });
+    } catch (e) {
+      console.log(e);
+      await trx.rollback();
+      throw e;
     }
   }
 
-  async getByOwnerId(owner_id: number): Promise<GetByOwnerIdSurveysResponseDto[]> {
+  async getByOwnerId(
+    owner_id: number,
+  ): Promise<GetByOwnerIdSurveysResponseDto[]> {
     const surveys = await this.surveysRepository.getByOwnerId(owner_id);
 
     return plainToInstance(GetByOwnerIdSurveysResponseDto, surveys);
@@ -81,26 +91,31 @@ export class SurveysService {
     return surveys;
   }
 
-  async delete(id: number, owner_id: number): Promise<DeleteSurveysResponseDto> {
-    const survey = await this.surveysRepository.getItemByIdOwnerId(id, owner_id);
+  async delete(
+    id: number,
+    owner_id: number,
+  ): Promise<DeleteSurveysResponseDto> {
+    const survey = await this.surveysRepository.getItemByIdOwnerId(
+      id,
+      owner_id,
+    );
 
     if (!survey) {
       throw new BadRequestException('survey not found');
     }
-    const trx = await Surveys.startTransaction()
+    const trx = await Surveys.startTransaction();
     try {
       await this.surveysRepository.delete(id, trx);
-      await trx.commit()
+      await trx.commit();
       return new DeleteSurveysResponseDto({
         id: survey.id,
         title: survey.title,
         created_at: survey.created_at,
-    });
-    } catch(e) {
-      console.log(e)
-      await trx.rollback()
-      throw e
+      });
+    } catch (e) {
+      console.log(e);
+      await trx.rollback();
+      throw e;
     }
   }
-  
 }

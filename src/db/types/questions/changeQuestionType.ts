@@ -1,3 +1,3 @@
 export type ChangeQuestionType = {
-    type: string,
-}
+  type: string;
+};

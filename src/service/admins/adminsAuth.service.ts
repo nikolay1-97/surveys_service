@@ -36,7 +36,7 @@ export class AdminsAuthService {
         email: admin.email,
       };
 
-      const token: string = await this.jwtService.signAsync(payload, {
+      const token = await this.jwtService.signAsync(payload, {
         secret: this.configService.get('ADMIN_SECRET'),
         expiresIn: this.configService.get('EXPIRE_JWT'),
       });

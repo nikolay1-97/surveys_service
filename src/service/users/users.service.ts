@@ -6,7 +6,6 @@ import { PasswordService } from 'src/feature-md/password/password.service';
 import { Users } from 'src/db/models/users/users';
 import { CreateUsersType } from 'src/db/types/users/createUsersType';
 
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -15,26 +14,23 @@ export class UsersService {
   ) {}
 
   async create(dto: CreateUserDto): Promise<CreateUserResponseDto> {
-    const user = await this.userRepository.getByEmail(
-      dto.email,
-    );
+    const user = await this.userRepository.getByEmail(dto.email);
     if (!user) {
       const data: CreateUsersType = {
         email: dto.email,
         password: await this.passwordService.getPasswordHash(dto.password),
-      }
-      const trx = await Users.startTransaction()
+      };
+      const trx = await Users.startTransaction();
       try {
         await this.userRepository.create(data, trx);
-        await trx.commit()
+        await trx.commit();
         return new CreateUserResponseDto({ email: dto.email });
-      } catch(e) {
-        console.log(e)
-        await trx.rollback()
-        throw e
+      } catch (e) {
+        console.log(e);
+        await trx.rollback();
+        throw e;
       }
     }
     throw new BadRequestException('user already exists');
   }
-
 }

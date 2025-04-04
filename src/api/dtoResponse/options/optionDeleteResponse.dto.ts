@@ -1,12 +1,11 @@
 import { IsString, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-
 export class DeleteOptionResponseDto {
   @ApiProperty()
   @IsNumber()
   readonly id: number;
-  
+
   @ApiProperty()
   @IsNumber()
   readonly question_id: number;

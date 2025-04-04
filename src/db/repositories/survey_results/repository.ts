@@ -11,7 +11,9 @@ export class SurveyResultsRepository {
 
   async getById(id: number) {
     try {
-      const item: SurveyResults | undefined = await this.modelClass.query().findById(id);
+      const item: SurveyResults | undefined = await this.modelClass
+        .query()
+        .findById(id);
 
       return item;
     } catch (e) {
@@ -29,10 +31,7 @@ export class SurveyResultsRepository {
     }
   }
 
-  async getBySurveyIdAndOwnerId(
-    survey_id: number,
-    owner_id: number,
-  ) {
+  async getBySurveyIdAndOwnerId(survey_id: number, owner_id: number) {
     try {
       const items: SurveyResults[] | undefined = await this.modelClass
         .query()

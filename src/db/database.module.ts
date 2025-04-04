@@ -13,14 +13,14 @@ import { knex } from 'knex';
 import config from '../configuration/index';
 
 const models = [
-    Admins,
-    Users,
-    Surveys,
-    SurveyResults,
-    Questions,
-    Answers,
-    Options,
-    AnswersOptions,
+  Admins,
+  Users,
+  Surveys,
+  SurveyResults,
+  Questions,
+  Answers,
+  Options,
+  AnswersOptions,
 ];
 const modelProviders = models.map((model) => {
   return {

@@ -10,8 +10,6 @@ import { CreateAnswersOptionsType } from 'src/db/types/answersOptions/answersOpt
 import { CreateAnswersType } from 'src/db/types/answers/createAnswersType';
 import { Answers } from 'src/db/models/answers/answers';
 
-
-
 @Injectable()
 export class AnswersService {
   constructor(
@@ -22,66 +20,77 @@ export class AnswersService {
     private readonly surResRepository: SurveyResultsRepository,
   ) {}
 
-  async create(user_id: number, dto: CreateAnswersDto): Promise<CreateAnswersResponseDto> {
-    const surRes = await this.surResRepository.getById(dto.survey_results_id)
+  async create(
+    user_id: number,
+    dto: CreateAnswersDto,
+  ): Promise<CreateAnswersResponseDto> {
+    const surRes = await this.surResRepository.getById(dto.survey_results_id);
     if (!surRes) {
-      throw new BadRequestException('survey_result not found')
+      throw new BadRequestException('survey_result not found');
     }
-    const question = await this.questionsRepository.getById(dto.question_id)
+    const question = await this.questionsRepository.getById(dto.question_id);
 
     if (!question) {
-        throw new BadRequestException('question not found')
+      throw new BadRequestException('question not found');
     }
-    const answer = await this.answersRepository.getBySurveyResultIdQuestionIdUserId(dto.survey_results_id, dto.question_id, user_id);
+    const answer =
+      await this.answersRepository.getBySurveyResultIdQuestionIdUserId(
+        dto.survey_results_id,
+        dto.question_id,
+        user_id,
+      );
 
     if (!answer) {
       if (dto.options.length === 1) {
-        const option = await this.optionRepository.getById(dto.options[0])
+        const option = await this.optionRepository.getById(dto.options[0]);
         if (!option) {
-          throw new BadRequestException('option not found')
+          throw new BadRequestException('option not found');
         }
-      }
-      else {
-        for (let cnt = 0; cnt <= dto.options.length-1; cnt ++) {
-          let option = await this.optionRepository.getById(dto.options[cnt]);
-            if (!option) {
-              throw new BadRequestException('option not found')
-            }
+      } else {
+        for (let cnt = 0; cnt <= dto.options.length - 1; cnt++) {
+          const option = await this.optionRepository.getById(dto.options[cnt]);
+          if (!option) {
+            throw new BadRequestException('option not found');
           }
+        }
       }
       const data: CreateAnswersType = {
         user_id: user_id,
         survey_results_id: dto.survey_results_id,
         question_id: dto.question_id,
         answer: dto.answer,
-      }
+      };
       const trx = await Answers.startTransaction();
       try {
         const answer = await this.answersRepository.create(data, trx);
-        const answOptData = new Array<CreateAnswersOptionsType>
+        const answOptData = new Array<CreateAnswersOptionsType>();
         if (dto.options.length === 1) {
-          const answOptItem: CreateAnswersOptionsType = {answer_id: answer.id, option_id: dto.options[0]}
-          answOptData.push(answOptItem)
-        }
-        else {
-          for (let cnt = 0; cnt <= dto.options.length-1; cnt++) {
-            let answOptItem: CreateAnswersOptionsType = {answer_id: answer.id, option_id: dto.options[cnt]}
-            answOptData.push(answOptItem)
+          const answOptItem: CreateAnswersOptionsType = {
+            answer_id: answer.id,
+            option_id: dto.options[0],
+          };
+          answOptData.push(answOptItem);
+        } else {
+          for (let cnt = 0; cnt <= dto.options.length - 1; cnt++) {
+            const answOptItem: CreateAnswersOptionsType = {
+              answer_id: answer.id,
+              option_id: dto.options[cnt],
+            };
+            answOptData.push(answOptItem);
           }
         }
-        await this.answersOptionsRepository.create(answOptData, trx)
-        await trx.commit()
+        await this.answersOptionsRepository.create(answOptData, trx);
+        await trx.commit();
         return new CreateAnswersResponseDto({
           survey_results_id: dto.survey_results_id,
           question_id: dto.question_id,
           answer: dto.answer,
         });
-     } catch(e) {
-      await trx.rollback();
-      throw e;
-     }
+      } catch (e) {
+        await trx.rollback();
+        throw e;
+      }
     }
     throw new BadRequestException('answer already exists');
   }
-
 }

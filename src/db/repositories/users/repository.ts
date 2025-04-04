@@ -5,13 +5,13 @@ import { CreateUsersType } from 'src/db/types/users/createUsersType';
 
 @Injectable()
 export class UsersRepository {
-  constructor(
-    @Inject('Users') private modelClass: ModelClass<Users>,
-  ) {}
+  constructor(@Inject('Users') private modelClass: ModelClass<Users>) {}
 
   async getById(id: number) {
     try {
-      const user: Users | undefined = await this.modelClass.query().findById(id);
+      const user: Users | undefined = await this.modelClass
+        .query()
+        .findById(id);
 
       return user;
     } catch (e) {
@@ -42,5 +42,4 @@ export class UsersRepository {
       throw e;
     }
   }
-
 }

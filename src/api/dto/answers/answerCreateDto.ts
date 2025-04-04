@@ -1,7 +1,6 @@
 import { IsString, IsNumber, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-
 export class CreateAnswersDto {
   @ApiProperty()
   @IsNumber()
@@ -10,13 +9,12 @@ export class CreateAnswersDto {
   @ApiProperty()
   @IsNumber()
   readonly question_id: number;
-  
+
   @ApiProperty()
   @IsString()
   readonly answer: string;
-  
+
   @IsArray()
   @ApiProperty()
-  readonly options: Array<number>
-
+  readonly options: Array<number>;
 }

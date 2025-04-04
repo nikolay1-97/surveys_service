@@ -1,12 +1,11 @@
 import { IsString, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-
 export class GetBySurveyIdQuestionResponseDto {
   @ApiProperty()
   @IsNumber()
   readonly id: number;
-  
+
   @ApiProperty()
   @IsNumber()
   readonly survey_id: number;

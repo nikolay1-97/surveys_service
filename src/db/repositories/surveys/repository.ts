@@ -1,18 +1,18 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { ModelClass, PartialModelObject } from 'objection';
+import { ModelClass } from 'objection';
 import { Surveys } from 'src/db/models/surveys/surveys';
 import { CreateSurveysType } from 'src/db/types/surveys/CreateSurveysType';
 import { ChangeTitleSurveysType } from 'src/db/types/surveys/ChangeTitleSurveysType';
 
 @Injectable()
 export class SurveysRepository {
-  constructor(
-    @Inject('Surveys') private modelClass: ModelClass<Surveys>,
-  ) {}
+  constructor(@Inject('Surveys') private modelClass: ModelClass<Surveys>) {}
 
   async getById(id: number) {
     try {
-      const item: Surveys | undefined = await this.modelClass.query().findById(id);
+      const item: Surveys | undefined = await this.modelClass
+        .query()
+        .findById(id);
 
       return item;
     } catch (e) {
@@ -108,10 +108,7 @@ export class SurveysRepository {
     }
   }
 
-  async getByTitleAndOwnerId(
-    title: string,
-    owner_id: number,
-  ) {
+  async getByTitleAndOwnerId(title: string, owner_id: number) {
     try {
       const items: Surveys[] | undefined = await this.modelClass
         .query()
@@ -144,47 +141,48 @@ export class SurveysRepository {
 
       if (items.length === 0) {
         return [];
-      };
+      }
 
+      const res = {};
 
-      const res = {}
-
-      for (let cnt = 0; cnt <= items.length-1; cnt++) {
-        let survey_id = items[cnt]['survey_id']
-        let survey = items[cnt]['survey']
-        let question_id = items[cnt]['question_id']
-        let question = items[cnt]['question']
-        let option_id = items[cnt]['option_id']
-        let option = items[cnt]['option']
+      for (let cnt = 0; cnt <= items.length - 1; cnt++) {
+        const survey_id = items[cnt]['survey_id'];
+        const survey = items[cnt]['survey'];
+        const question_id = items[cnt]['question_id'];
+        const question = items[cnt]['question'];
+        const option_id = items[cnt]['option_id'];
+        const option = items[cnt]['option'];
 
         if (survey_id in res) {
           if (question_id in res[survey_id]['questions']) {
-            res[survey_id]['questions'][question_id]['options'][option_id] = {title: option}
+            res[survey_id]['questions'][question_id]['options'][option_id] = {
+              title: option,
+            };
+          } else {
+            res[survey_id]['questions'][question_id] = {};
+            res[survey_id]['questions'][question_id]['question'] = question;
+            res[survey_id]['questions'][question_id]['options'] = {};
+            res[survey_id]['questions'][question_id]['options'][option_id] = {
+              title: option,
+            };
           }
-          else {
-            res[survey_id]['questions'][question_id] = {}
-            res[survey_id]['questions'][question_id]['question'] = question
-            res[survey_id]['questions'][question_id]['options'] = {}
-            res[survey_id]['questions'][question_id]['options'][option_id] = {title: option}
-          }
-
-        }
-        else {
-          res[survey_id] = {}
-          res[survey_id]['title'] = survey
-          res[survey_id]['questions'] = {}
-          res[survey_id]['questions'][question_id] = {}
-          res[survey_id]['questions'][question_id]['question'] = question
-          res[survey_id]['questions'][question_id]['options'] = {}
-          res[survey_id]['questions'][question_id]['options'][option_id] = {title: option}
+        } else {
+          res[survey_id] = {};
+          res[survey_id]['title'] = survey;
+          res[survey_id]['questions'] = {};
+          res[survey_id]['questions'][question_id] = {};
+          res[survey_id]['questions'][question_id]['question'] = question;
+          res[survey_id]['questions'][question_id]['options'] = {};
+          res[survey_id]['questions'][question_id]['options'][option_id] = {
+            title: option,
+          };
         }
       }
-      
-      return res
+
+      return res;
     } catch (e) {
       console.log(e);
       throw e;
     }
   }
-
 }

@@ -1,5 +1,5 @@
 export type CreateQuestionType = {
-    survey_id: number,
-    question: string,
-    type: string,
-}
+  survey_id: number;
+  question: string;
+  type: string;
+};

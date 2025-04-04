@@ -1,3 +1,3 @@
 export type ChangeTitleOptionsType = {
-    title: string,
-}
+  title: string;
+};

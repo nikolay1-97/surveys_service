@@ -1,4 +1,4 @@
-import { Model } from "objection";
+import { Model } from 'objection';
 
 export class AnswersOptions extends Model {
   static tableName = 'answers_options';

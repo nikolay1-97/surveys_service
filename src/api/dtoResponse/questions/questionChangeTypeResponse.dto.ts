@@ -1,9 +1,7 @@
 import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-
 export class ChangeTypeQuestionResponseDto {
-
   @ApiProperty()
   @IsString()
   readonly type: string;

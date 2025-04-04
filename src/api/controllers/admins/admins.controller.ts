@@ -4,7 +4,6 @@ import { LoginAdminsDto } from 'src/api/dto/admins/adminsLogin.dto';
 import { LoginAdminsResponseDto } from 'src/api/dtoResponse/admins/adminsLoginResponse.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-
 @ApiTags('Admins/Auth')
 @Controller('admins')
 export class AdminsController {
@@ -12,13 +11,8 @@ export class AdminsController {
 
   @ApiResponse({ status: 200, type: LoginAdminsResponseDto })
   @Post()
-  async login(
-    @Body() dto: LoginAdminsDto,
-  ): Promise<LoginAdminsResponseDto> {
-    const token = await this.adminsAuthService.login(
-      dto.email,
-      dto.password,
-    );
+  async login(@Body() dto: LoginAdminsDto): Promise<LoginAdminsResponseDto> {
+    const token = await this.adminsAuthService.login(dto.email, dto.password);
     if (token) {
       return new LoginAdminsResponseDto({
         access_token: token.access_token,

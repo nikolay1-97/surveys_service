@@ -4,14 +4,15 @@ import { Options } from 'src/db/models/options/options';
 import { CreateOptionsType } from 'src/db/types/options/createOptionsType';
 import { ChangeTitleOptionsType } from 'src/db/types/options/changeTitleOptionsType';
 
-
 @Injectable()
 export class OptionsRepository {
   constructor(@Inject('Options') private modelClass: ModelClass<Options>) {}
 
   async getById(id: number) {
     try {
-      const item: Options | undefined = await this.modelClass.query().findById(id);
+      const item: Options | undefined = await this.modelClass
+        .query()
+        .findById(id);
 
       return item;
     } catch (e) {
@@ -36,7 +37,7 @@ export class OptionsRepository {
 
   async getBySurveyIdAndQuestionId(survey_id: number, question_id: number) {
     try {
-        const items: Options[] | undefined = await this.modelClass
+      const items: Options[] | undefined = await this.modelClass
         .query()
         .where('surveys.id', '=', survey_id)
         .where('questions.id', '=', question_id)
@@ -50,7 +51,6 @@ export class OptionsRepository {
       throw e;
     }
   }
-
 
   async getByQuestionIdAndTitle(question_id: number, title: string) {
     try {
@@ -100,68 +100,61 @@ export class OptionsRepository {
     }
   }
 
-  async getByAnswerIdAndOptionId(
-      answer_id,
-      option_id: number,
-    ) {
-      try {
-        const items: Options[] | undefined = await this.modelClass
-          .query()
-          .where('answers.id', '=', answer_id)
-          .where('options.id', '=', option_id)
-          .join('questions', 'questions.id', '=', 'options.question_id')
-          .join('answers', 'questions.id', '=', 'answers.question_id')
-          .select('options.id', 'options.title');
-  
-        return items[0];
-      } catch (e) {
-        console.log(e);
-        throw e;
-      }
+  async getByAnswerIdAndOptionId(answer_id, option_id: number) {
+    try {
+      const items: Options[] | undefined = await this.modelClass
+        .query()
+        .where('answers.id', '=', answer_id)
+        .where('options.id', '=', option_id)
+        .join('questions', 'questions.id', '=', 'options.question_id')
+        .join('answers', 'questions.id', '=', 'answers.question_id')
+        .select('options.id', 'options.title');
+
+      return items[0];
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
+  }
 
   async getByIdQuestionIdOwnerId(
     id: number,
     question_id: number,
     owner_id: number,
   ) {
-      try {
-        const items: Options[] | undefined = await this.modelClass
-          .query()
-          .where('options.id', '=', id)
-          .where('questions.id', '=', question_id)
-          .where('admins.id', '=', owner_id)
-          .join('questions', 'questions.id', '=', 'options.question_id')
-          .join('surveys', 'surveys.id', '=', 'questions.survey_id')
-          .join('admins', 'admins.id', '=', 'surveys.owner_id')
-          .select('options.id');
-      
-        return items[0];
-      } catch (e) {
-        console.log(e);
-        throw e;
-      }
-    }
+    try {
+      const items: Options[] | undefined = await this.modelClass
+        .query()
+        .where('options.id', '=', id)
+        .where('questions.id', '=', question_id)
+        .where('admins.id', '=', owner_id)
+        .join('questions', 'questions.id', '=', 'options.question_id')
+        .join('surveys', 'surveys.id', '=', 'questions.survey_id')
+        .join('admins', 'admins.id', '=', 'surveys.owner_id')
+        .select('options.id');
 
-  async getByIdOwnerId(
-    id: number,
-    owner_id: number,
-  ) {
-      try {
-        const items: Options[] | undefined = await this.modelClass
-          .query()
-          .where('options.id', '=', id)
-          .where('admins.id', '=', owner_id)
-          .join('questions', 'questions.id', '=', 'options.question_id')
-          .join('surveys', 'surveys.id', '=', 'questions.survey_id')
-          .join('admins', 'admins.id', '=', 'surveys.owner_id')
-          .select('options.id');
-        
-        return items[0];
-      } catch (e) {
-        console.log(e);
-        throw e;
-      }
+      return items[0];
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 
+  async getByIdOwnerId(id: number, owner_id: number) {
+    try {
+      const items: Options[] | undefined = await this.modelClass
+        .query()
+        .where('options.id', '=', id)
+        .where('admins.id', '=', owner_id)
+        .join('questions', 'questions.id', '=', 'options.question_id')
+        .join('surveys', 'surveys.id', '=', 'questions.survey_id')
+        .join('admins', 'admins.id', '=', 'surveys.owner_id')
+        .select('options.id');
+
+      return items[0];
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 }

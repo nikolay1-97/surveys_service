@@ -1,10 +1,10 @@
 import {
-    Controller,
-    Post,
-    Body,
-    UseGuards,
-    BadRequestException,
-  } from '@nestjs/common';
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  BadRequestException,
+} from '@nestjs/common';
 import { UsersService } from 'src/service/users/users.service';
 import { UsersAuthService } from 'src/service/users/usersAuth.service';
 import { CreateUserDto } from 'src/api/dto/users/userCreate.dto';
@@ -13,41 +13,33 @@ import { LoginUsersDto } from 'src/api/dto/users/usersLogin.dto';
 import { LoginUsersResponseDto } from 'src/api/dtoResponse/user/usersLoginResponse.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-  
-  @ApiTags('Users')
-  @Controller('users')
-  export class UsersController {
-    constructor(
-      private readonly userService: UsersService,
-      private readonly authService: UsersAuthService,
-    ) {}
-  
-    @ApiResponse({ status: 201, type: CreateUserResponseDto })
-    @Post()
-    async register(@Body() dto: CreateUserDto): Promise<CreateUserResponseDto> {
-      const user = await this.userService.create({
-        email: dto.email,
-        password: dto.password,
+@ApiTags('Users')
+@Controller('users')
+export class UsersController {
+  constructor(
+    private readonly userService: UsersService,
+    private readonly authService: UsersAuthService,
+  ) {}
+
+  @ApiResponse({ status: 201, type: CreateUserResponseDto })
+  @Post()
+  async register(@Body() dto: CreateUserDto): Promise<CreateUserResponseDto> {
+    const user = await this.userService.create({
+      email: dto.email,
+      password: dto.password,
+    });
+    return new CreateUserResponseDto(user);
+  }
+
+  @ApiResponse({ status: 200, type: LoginUsersResponseDto })
+  @Post('login')
+  async login(@Body() dto: LoginUsersDto): Promise<LoginUsersResponseDto> {
+    const token = await this.authService.login(dto.email, dto.password);
+    if (token) {
+      return new LoginUsersResponseDto({
+        access_token: token.access_token,
       });
-      return new CreateUserResponseDto(user);
     }
-
-    @ApiResponse({ status: 200, type: LoginUsersResponseDto })
-    @Post('login')
-    async login(
-      @Body() dto: LoginUsersDto,
-    ): Promise<LoginUsersResponseDto> {
-      const token = await this.authService.login(
-        dto.email,
-        dto.password,
-      );
-      if (token) {
-        return new LoginUsersResponseDto({
-          access_token: token.access_token,
-        });
-      }
-      throw new BadRequestException('неверный логин или пароль');
-    }
-
+    throw new BadRequestException('неверный логин или пароль');
+  }
 }
-  

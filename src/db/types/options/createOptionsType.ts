@@ -1,4 +1,4 @@
 export type CreateOptionsType = {
-    question_id: number,
-    title: string,
-}
+  question_id: number;
+  title: string;
+};
