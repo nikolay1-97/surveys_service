@@ -27,7 +27,7 @@ import { ChangeTypeQuestionDto } from 'src/api/dto/questions/questionChangeType.
 import { ChangeTypeQuestionResponseDto } from 'src/api/dtoResponse/questions/questionChangeTypeResponse.dto';
 import { DeleteQuestionResponseDto } from 'src/api/dtoResponse/questions/questionDeleteResponse.dto';
 import { UserId } from 'src/api/decorators/users/getUserId';
-import { AdminAuthGuard } from 'src/api/guards/admin/adminAuthGuard';
+import { AdminsAuthGuard } from 'src/api/guards/admin/adminAuthGuard';
 import { GetBySurveyIdQuestionResponseDto } from 'src/api/dtoResponse/questions/questionGetBySurveyIdResponse.dto';
 import { CreateOptionDto } from 'src/api/dto/options/optionCreate.dto';
 import { CreateOptionResponseDto } from 'src/api/dtoResponse/options/optionCreateResponse.dto';
@@ -36,7 +36,7 @@ import { ChangeTitleOptionResponseDto } from 'src/api/dtoResponse/options/option
 import { GetByQuestionIdOptionResponseDto } from 'src/api/dtoResponse/options/optionGetByQuestionIdResponse.dto';
 import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDeleteResponse.dto';
 
-@UseGuards(AdminAuthGuard)
+@UseGuards(AdminsAuthGuard)
 @ApiTags('Admins/Surveys')
 @Controller('admins/surveys')
 export class ManageSurveysController {

@@ -3,13 +3,16 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AnswersOptionsService } from 'src/service/answers_options/answers_options.service';
 import { GetStatBySurveyIdResponseDto } from 'src/api/dtoResponse/answersOptions/getStatBySurveyId';
 import { GetStatResponseDto } from 'src/api/dtoResponse/answersOptions/getStatResponse';
+import { AdminsAuthGuard } from 'src/api/guards/admin/adminAuthGuard';
 
+
+//@UseGuards(AdminsAuthGuard)
 @ApiTags('Admins/AnswersOptions')
 @Controller('answers-options')
 export class AnswersOptionsController {

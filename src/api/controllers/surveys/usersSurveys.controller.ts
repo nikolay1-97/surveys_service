@@ -13,7 +13,9 @@ import { GetSurveysResponseDto } from 'src/api/dtoResponse/surveys/users/getSurv
 import { GetQuestionsResponseDto } from 'src/api/dtoResponse/questions/users/getQuestions';
 import { GetOptionsResponseDto } from 'src/api/dtoResponse/options/users/getOptions';
 import { GetSurveysAllInfoResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveysAllInfo';
+import { UsersAuthGuard } from 'src/api/guards/user/userAuthGuard';
 
+@UseGuards(UsersAuthGuard)
 @ApiTags('Users/Surveys')
 @Controller('surveys')
 export class UsersSurveysController {

@@ -8,17 +8,14 @@ import {
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SurveyResultsService } from 'src/service/survey_results/survey_results.service';
 import { CreateSurveyResultsResponseDto } from 'src/api/dtoResponse/survey_results/sur_resCreateResponse.dto';
-import { JwtService } from '@nestjs/jwt';
-import { UserAuthGuard } from 'src/api/guards/user/userAuthGuard';
+import { UsersAuthGuard } from 'src/api/guards/user/userAuthGuard';
 import { UserId } from 'src/api/decorators/users/getUserId';
 
-@UseGuards(UserAuthGuard)
+@UseGuards(UsersAuthGuard)
 @ApiTags('Users/SurveyResults')
 @Controller('survey-results')
 export class SurveyResultsController {
-  constructor(
-    private readonly surveyResultsService: SurveyResultsService,
-  ) {}
+  constructor(private readonly surveyResultsService: SurveyResultsService) {}
 
   @ApiResponse({ status: 200, type: CreateSurveyResultsResponseDto })
   @Post(':survey_id')

@@ -2,7 +2,6 @@ import {
   Controller,
   Post,
   Body,
-  UseGuards,
   BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from 'src/service/users/users.service';
