@@ -149,7 +149,7 @@ export class OptionsRepository {
         .join('questions', 'questions.id', '=', 'options.question_id')
         .join('surveys', 'surveys.id', '=', 'questions.survey_id')
         .join('admins', 'admins.id', '=', 'surveys.owner_id')
-        .select('options.id');
+        .select('*');
 
       return items[0];
     } catch (e) {

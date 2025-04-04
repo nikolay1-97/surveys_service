@@ -88,6 +88,25 @@ describe('ManageSurveysController (e2e)', () => {
       .expect(201)
       .expect({title: 'survey100'});
   }),
+  it('/admins/surveys (POST)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .post('/admins/surveys')
+      .set('Authorization', 'Bearer ' + token)
+      .send({ title: 'survey100' })
+      .expect(400)
+      .expect({
+        message: 'survey already exists',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
   it('/admins/surveys/4 (PATCH)', async () => {
     const loginResponse = await request(app.getHttpServer())
       .post('/admins')
@@ -415,7 +434,237 @@ describe('ManageSurveysController (e2e)', () => {
       .expect({
         title: 'new_option9',
       });
+  }),
+  it('/admins/surveys/questions/7/options/9 (PATCH)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .patch('/admins/surveys/questions/7/options/9')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: 'new_option9',
+      })
+      .expect(400)
+      .expect({
+        message: 'option already exists',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/questions/4/options/5 (PATCH)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .patch('/admins/surveys/questions/4/options/5')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: 'new_option9',
+      })
+      .expect(400)
+      .expect({
+        message: 'option not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/questions/7/options/5 (PATCH)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .patch('/admins/surveys/questions/7/options/5')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: 'new_option9',
+      })
+      .expect(400)
+      .expect({
+        message: 'option not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/options/9 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/options/9')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200)
+      .expect((response) => {
+        return (
+          response.body.id === 9 && response.body.question_id === 7
+          && response.body.title === 'option1'
+        );
+      });
+  }),
+  it('/admins/surveys/options/9 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/options/9')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(400)
+      .expect({
+        message: 'option not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/options/9 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/options/5')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(400)
+      .expect({
+        message: 'option not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/questions/7 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/questions/7')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200)
+      .expect((response) => {
+        return (
+          response.body.id === 7 && response.body.survey_id === 3
+          && response.body.questions === 'question1'
+          && response.body.type === 'single choice'
+        );
+      });
+  }),
+  it('/admins/surveys/questions/7 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/questions/7')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(400)
+      .expect({
+        message: 'question not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/questions/7 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/questions/4')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(400)
+      .expect({
+        message: 'question not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/4 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/4')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200)
+      .expect((response) => {
+        return (
+          response.body.id === 4 && response.body.owner_id === 1
+          && response.body.title === 'survey4'
+        );
+      });
+  }),
+  it('/admins/surveys/4 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/4')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(400)
+      .expect({
+        message: 'survey not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
+  }),
+  it('/admins/surveys/2 (DELETE)', async () => {
+    const loginResponse = await request(app.getHttpServer())
+      .post('/admins')
+      .send({ email: 'admin1@mail.ru', password: 'qwerty' })
+      .expect(201);
+
+    const token = loginResponse.body.access_token;
+
+    return request(app.getHttpServer())
+      .delete('/admins/surveys/2')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(400)
+      .expect({
+        message: 'survey not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      });
   })
+  
 
 
   afterAll(async () => {

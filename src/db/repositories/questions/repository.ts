@@ -59,7 +59,7 @@ export class QuestionsRepository {
         .where('admins.id', '=', owner_id)
         .join('surveys', 'surveys.id', '=', 'questions.survey_id')
         .join('admins', 'admins.id', '=', 'surveys.owner_id')
-        .select('questions.id');
+        .select('*');
 
       return items[0];
     } catch (e) {
