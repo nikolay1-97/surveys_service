@@ -28,7 +28,7 @@ export class AnswersService {
     if (!surRes) {
       throw new BadRequestException('survey_result not found');
     }
-    const question = await this.questionsRepository.getById(dto.question_id);
+    const question = await this.questionsRepository.getByIdSurveyId(dto.question_id, surRes.survey_id);
 
     if (!question) {
       throw new BadRequestException('question not found');
@@ -42,13 +42,13 @@ export class AnswersService {
 
     if (!answer) {
       if (dto.options.length === 1) {
-        const option = await this.optionRepository.getById(dto.options[0]);
+        const option = await this.optionRepository.getByIdQuestionId(dto.options[0], question.id);
         if (!option) {
           throw new BadRequestException('option not found');
         }
       } else {
         for (let cnt = 0; cnt <= dto.options.length - 1; cnt++) {
-          const option = await this.optionRepository.getById(dto.options[cnt]);
+          const option = await this.optionRepository.getByIdQuestionId(dto.options[cnt], question.id);
           if (!option) {
             throw new BadRequestException('option not found');
           }
@@ -85,6 +85,7 @@ export class AnswersService {
           survey_results_id: dto.survey_results_id,
           question_id: dto.question_id,
           answer: dto.answer,
+          options: dto.options,
         });
       } catch (e) {
         await trx.rollback();

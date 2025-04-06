@@ -17,7 +17,7 @@ export class AnswersRepository {
     try {
       const items: Answers[] | undefined = await this.modelClass
         .query()
-        .select('*')
+        .select('id')
         .where('survey_results_id', '=', survey_result_id)
         .where('question_id', '=', question_id)
         .where('user_id', '=', user_id);

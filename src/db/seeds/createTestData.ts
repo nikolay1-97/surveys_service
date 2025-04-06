@@ -236,6 +236,12 @@ export async function seed(knex: Knex): Promise<void> {
       survey_id: 1,
     },
   ]);
+  await knex('survey_results').insert([
+    {
+      user_id: 1,
+      survey_id: 2,
+    },
+  ]);
   await knex('answers').insert([
     {
       user_id: 1,

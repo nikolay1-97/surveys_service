@@ -1,4 +1,4 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAnswersResponseDto {
@@ -13,6 +13,10 @@ export class CreateAnswersResponseDto {
   @ApiProperty()
   @IsString()
   readonly answer: string;
+
+  @IsArray()
+  @ApiProperty()
+  readonly options: Array<number>;
 
   constructor(partial: Partial<CreateAnswersResponseDto>) {
     Object.assign(this, partial);

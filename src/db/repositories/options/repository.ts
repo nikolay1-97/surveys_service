@@ -35,6 +35,21 @@ export class OptionsRepository {
     }
   }
 
+  async getByIdQuestionId(id: number, question_id: number) {
+    try {
+      const items: Options[] | undefined = await this.modelClass
+        .query()
+        .select('id')
+        .where('id', '=', id)
+        .where('question_id', '=', question_id);
+
+      return items[0];
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
   async getBySurveyIdAndQuestionId(survey_id: number, question_id: number) {
     try {
       const items: Options[] | undefined = await this.modelClass

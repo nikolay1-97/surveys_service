@@ -18,7 +18,7 @@ import { UsersAuthGuard } from 'src/api/guards/user/userAuthGuard';
 @UseGuards(UsersAuthGuard)
 @ApiTags('Users/Surveys')
 @Controller('surveys')
-export class UsersSurveysController {
+export class SurveysForUsersController {
   constructor(
     private readonly surveysService: SurveysService,
     private readonly questionsService: QuestionsService,
