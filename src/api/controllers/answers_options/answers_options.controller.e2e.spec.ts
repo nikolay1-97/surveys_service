@@ -29,39 +29,30 @@ describe('AnswersOptionsController (e2e)', () => {
       .get('/answers-options/1')
       .set('Authorization', 'Bearer ' + token)
       .expect(200)
-      .expect(
-        {
-            "user1@mail.ru": {
-              "questions": {
-                "question1": {
-                  "options": [
-                    "option1"
-                  ],
-                  "answer": null,
-                  "type": "single choice"
-                },
-                "question2": {
-                  "options": [
-                    "option1",
-                    "option2"
-                  ],
-                  "answer": null,
-                  "type": "multiple choice"
-                },
-                "question3": {
-                  "options": [
-                    "option1"
-                  ],
-                  "answer": "Это ответ на вопрос типа текст",
-                  "type": "text"
-                }
-              }
+      .expect({
+        'user1@mail.ru': {
+          questions: {
+            question1: {
+              options: ['option1'],
+              answer: null,
+              type: 'single choice',
             },
-            "count": 1
-          }
-      );
-  })
-  
+            question2: {
+              options: ['option1', 'option2'],
+              answer: null,
+              type: 'multiple choice',
+            },
+            question3: {
+              options: ['option1'],
+              answer: 'Это ответ на вопрос типа текст',
+              type: 'text',
+            },
+          },
+        },
+        count: 1,
+      });
+  });
+
   afterAll(async () => {
     await app.close();
   });

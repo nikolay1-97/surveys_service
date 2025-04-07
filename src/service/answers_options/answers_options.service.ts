@@ -9,10 +9,11 @@ export class AnswersOptionsService {
     private readonly answersOptionsrepository: AnswersOptionsRepository,
   ) {}
 
-  async getStatBySurveyId(survey_id: number): Promise<GetStatBySurveyIdResponseDto> {
+  async getStatBySurveyId(
+    survey_id: number,
+  ): Promise<GetStatBySurveyIdResponseDto> {
     const survey_stat =
       await this.answersOptionsrepository.getStatBySurveyId(survey_id);
     return plainToInstance(GetStatBySurveyIdResponseDto, survey_stat);
   }
-
 }

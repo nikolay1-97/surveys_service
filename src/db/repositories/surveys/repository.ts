@@ -26,8 +26,9 @@ export class SurveysRepository {
 
   async getAll() {
     try {
-      const items: Surveys[] | undefined = await this.modelClass.query()
-      .select('id', 'title');
+      const items: Surveys[] | undefined = await this.modelClass
+        .query()
+        .select('id', 'title');
 
       return items;
     } catch (e) {

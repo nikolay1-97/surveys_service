@@ -11,9 +11,7 @@ import { GetStatBySurveyIdResponseDto } from 'src/api/dtoResponse/answersOptions
 import { AdminsAuthGuard } from 'src/api/guards/admin/adminAuthGuard';
 import { plainToInstance } from 'class-transformer';
 
-
-
-//@UseGuards(AdminsAuthGuard)
+@UseGuards(AdminsAuthGuard)
 @ApiTags('Admins/AnswersOptions')
 @Controller('answers-options')
 export class AnswersOptionsController {
@@ -21,9 +19,10 @@ export class AnswersOptionsController {
 
   @ApiResponse({ status: 200, type: GetStatBySurveyIdResponseDto })
   @Get(':survey_id')
-  async getStatBySurveyId(@Param('survey_id', ParseIntPipe) survey_id: number): Promise<GetStatBySurveyIdResponseDto> {
-    const stat =  await this.answersOptionsService.getStatBySurveyId(survey_id);
+  async getStatBySurveyId(
+    @Param('survey_id', ParseIntPipe) survey_id: number,
+  ): Promise<GetStatBySurveyIdResponseDto> {
+    const stat = await this.answersOptionsService.getStatBySurveyId(survey_id);
     return plainToInstance(GetStatBySurveyIdResponseDto, stat);
   }
-
 }

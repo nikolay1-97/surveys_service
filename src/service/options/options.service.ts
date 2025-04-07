@@ -105,7 +105,8 @@ export class OptionsService {
   async getByQuestionIdForUsers(
     question_id: number,
   ): Promise<GetOptionsResponseDto[]> {
-    const options = await this.optionsRepository.getByQuestionIdForUsers(question_id);
+    const options =
+      await this.optionsRepository.getByQuestionIdForUsers(question_id);
 
     return plainToInstance(GetOptionsResponseDto, options);
   }

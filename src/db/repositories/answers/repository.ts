@@ -3,7 +3,6 @@ import { ModelClass } from 'objection';
 import { Answers } from 'src/db/models/answers/answers';
 import { CreateAnswersType } from 'src/db/types/answers/createAnswersType';
 
-
 @Injectable()
 export class AnswersRepository {
   constructor(

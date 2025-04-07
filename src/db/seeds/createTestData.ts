@@ -3,9 +3,9 @@ import * as bcrypt from 'bcrypt';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
-  await knex.raw('TRUNCATE TABLE "answers_options", "answers", "survey_results", "options", "questions", "surveys", "admins", "users"  RESTART IDENTITY');
-  
-  
+  await knex.raw(
+    'TRUNCATE TABLE "answers_options", "answers", "survey_results", "options", "questions", "surveys", "admins", "users"  RESTART IDENTITY',
+  );
 
   // Inserts seed entries
   await knex('admins').insert([
@@ -54,84 +54,84 @@ export async function seed(knex: Knex): Promise<void> {
     {
       survey_id: 1,
       question: 'question1',
-      type: 'single choice'
+      type: 'single choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 1,
       question: 'question2',
-      type: 'multiple choice'
+      type: 'multiple choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 1,
       question: 'question3',
-      type: 'text'
+      type: 'text',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 2,
       question: 'question1',
-      type: 'single choice'
+      type: 'single choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 2,
       question: 'question2',
-      type: 'multiple choice'
+      type: 'multiple choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 2,
       question: 'question3',
-      type: 'text'
+      type: 'text',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 3,
       question: 'question1',
-      type: 'single choice'
+      type: 'single choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 3,
       question: 'question2',
-      type: 'multiple choice'
+      type: 'multiple choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 3,
       question: 'question3',
-      type: 'text'
+      type: 'text',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 4,
       question: 'question1',
-      type: 'single choice'
+      type: 'single choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 4,
       question: 'question2',
-      type: 'multiple choice'
+      type: 'multiple choice',
     },
   ]);
   await knex('questions').insert([
     {
       survey_id: 4,
       question: 'question3',
-      type: 'text'
+      type: 'text',
     },
   ]);
   await knex('options').insert([
@@ -261,7 +261,7 @@ export async function seed(knex: Knex): Promise<void> {
       user_id: 1,
       survey_results_id: 1,
       question_id: 3,
-      answer: 'Это ответ на вопрос типа текст'
+      answer: 'Это ответ на вопрос типа текст',
     },
   ]);
   await knex('answers_options').insert([
@@ -288,5 +288,4 @@ export async function seed(knex: Knex): Promise<void> {
       option_id: 4,
     },
   ]);
-
 }

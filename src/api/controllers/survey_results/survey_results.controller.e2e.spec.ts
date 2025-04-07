@@ -29,46 +29,44 @@ describe('SurveyResultsController (e2e)', () => {
       .post('/survey-results/3')
       .set('Authorization', 'Bearer ' + token)
       .expect(201)
-      .expect(
-        {survey_id: 3}
-      );
+      .expect({ survey_id: 3 });
   }),
-  it('/survey-results/3 (POST)', async () => {
-    const loginResponse = await request(app.getHttpServer())
-      .post('/users/login')
-      .send({ email: 'user1@mail.ru', password: 'qwerty' })
-      .expect(201);
+    it('/survey-results/3 (POST)', async () => {
+      const loginResponse = await request(app.getHttpServer())
+        .post('/users/login')
+        .send({ email: 'user1@mail.ru', password: 'qwerty' })
+        .expect(201);
 
-    const token = loginResponse.body.access_token;
+      const token = loginResponse.body.access_token;
 
-    return request(app.getHttpServer())
-      .post('/survey-results/3')
-      .set('Authorization', 'Bearer ' + token)
-      .expect(400)
-      .expect({
-        message: 'survey_result already exists',
-        error: 'Bad Request',
-        statusCode: 400
-      });
-  }),
-  it('/survey-results/100 (POST)', async () => {
-    const loginResponse = await request(app.getHttpServer())
-      .post('/users/login')
-      .send({ email: 'user1@mail.ru', password: 'qwerty' })
-      .expect(201);
+      return request(app.getHttpServer())
+        .post('/survey-results/3')
+        .set('Authorization', 'Bearer ' + token)
+        .expect(400)
+        .expect({
+          message: 'survey_result already exists',
+          error: 'Bad Request',
+          statusCode: 400,
+        });
+    }),
+    it('/survey-results/100 (POST)', async () => {
+      const loginResponse = await request(app.getHttpServer())
+        .post('/users/login')
+        .send({ email: 'user1@mail.ru', password: 'qwerty' })
+        .expect(201);
 
-    const token = loginResponse.body.access_token;
+      const token = loginResponse.body.access_token;
 
-    return request(app.getHttpServer())
-      .post('/survey-results/100')
-      .set('Authorization', 'Bearer ' + token)
-      .expect(400)
-      .expect({
-        message: 'survey not found',
-        error: 'Bad Request',
-        statusCode: 400
-      });
-  })
+      return request(app.getHttpServer())
+        .post('/survey-results/100')
+        .set('Authorization', 'Bearer ' + token)
+        .expect(400)
+        .expect({
+          message: 'survey not found',
+          error: 'Bad Request',
+          statusCode: 400,
+        });
+    });
 
   afterAll(async () => {
     await app.close();

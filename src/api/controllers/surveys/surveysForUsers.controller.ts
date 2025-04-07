@@ -16,7 +16,7 @@ import { GetSurveysAllInfoResponseDto } from 'src/api/dtoResponse/surveys/users/
 import { UsersAuthGuard } from 'src/api/guards/user/userAuthGuard';
 import { plainToInstance } from 'class-transformer';
 
-//@UseGuards(UsersAuthGuard)
+@UseGuards(UsersAuthGuard)
 @ApiTags('Users/Surveys')
 @Controller('surveys')
 export class SurveysForUsersController {

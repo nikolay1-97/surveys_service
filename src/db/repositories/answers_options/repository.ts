@@ -88,9 +88,8 @@ export class AnswersOptionsRepository {
       res['count'] = Object.keys(res).length;
       return res;
     } catch (e) {
-      this.logger.error(e)
+      this.logger.error(e);
       throw e;
     }
   }
-
 }

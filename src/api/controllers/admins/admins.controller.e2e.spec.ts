@@ -22,38 +22,38 @@ describe('AdminsController (e2e)', () => {
       .post('/admins')
       .send({
         email: 'admin1@mail.ru',
-        password: 'qwerty'
+        password: 'qwerty',
       })
       .expect(201);
   }),
-  it('/admins (POST)', async () => {
-    return request(app.getHttpServer())
-      .post('/admins')
-      .send({
-        email: 'admin10@mail.ru',
-        password: 'qwerty'
-      })
-      .expect(400)
-      .expect({
-        message: 'неверный логин или пароль',
-        error: 'Bad Request',
-        statusCode: 400,
-      });
-  }),
-  it('/admins (POST)', async () => {
-    return request(app.getHttpServer())
-      .post('/admins')
-      .send({
-        email: 'admin1@mail.ru',
-        password: 'qwertyifeije'
-      })
-      .expect(400)
-      .expect({
-        message: 'неверный логин или пароль',
-        error: 'Bad Request',
-        statusCode: 400,
-      });
-  })
+    it('/admins (POST)', async () => {
+      return request(app.getHttpServer())
+        .post('/admins')
+        .send({
+          email: 'admin10@mail.ru',
+          password: 'qwerty',
+        })
+        .expect(400)
+        .expect({
+          message: 'неверный логин или пароль',
+          error: 'Bad Request',
+          statusCode: 400,
+        });
+    }),
+    it('/admins (POST)', async () => {
+      return request(app.getHttpServer())
+        .post('/admins')
+        .send({
+          email: 'admin1@mail.ru',
+          password: 'qwertyifeije',
+        })
+        .expect(400)
+        .expect({
+          message: 'неверный логин или пароль',
+          error: 'Bad Request',
+          statusCode: 400,
+        });
+    });
 
   afterAll(async () => {
     await app.close();

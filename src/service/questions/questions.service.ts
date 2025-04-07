@@ -135,7 +135,8 @@ export class QuestionsService {
   async getBySurveyIdForUsers(
     survey_id: number,
   ): Promise<GetQuestionsResponseDto[]> {
-    const questions = await this.questionsRepository.getBySurveyIdForUsers(survey_id);
+    const questions =
+      await this.questionsRepository.getBySurveyIdForUsers(survey_id);
 
     return plainToInstance(GetQuestionsResponseDto, questions);
   }
