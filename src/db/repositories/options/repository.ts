@@ -38,6 +38,20 @@ export class OptionsRepository {
     }
   }
 
+  async getByQuestionIdForUsers(question_id: number) {
+    try {
+      const items: Options[] | undefined = await this.modelClass
+        .query()
+        .select('id', 'title')
+        .where('question_id', '=', question_id);
+
+      return items;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
   async getByIdQuestionId(id: number, question_id: number) {
     try {
       const items: Options[] | undefined = await this.modelClass

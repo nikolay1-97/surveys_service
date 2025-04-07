@@ -26,7 +26,8 @@ export class SurveysRepository {
 
   async getAll() {
     try {
-      const items: Surveys[] | undefined = await this.modelClass.query();
+      const items: Surveys[] | undefined = await this.modelClass.query()
+      .select('id', 'title');
 
       return items;
     } catch (e) {
@@ -138,6 +139,7 @@ export class SurveysRepository {
           'surveys.title as survey',
           'questions.id as question_id',
           'question',
+          'type',
           'options.id as option_id',
           'options.title as option',
         );
@@ -153,6 +155,7 @@ export class SurveysRepository {
         const survey = items[cnt]['survey'];
         const question_id = items[cnt]['question_id'];
         const question = items[cnt]['question'];
+        const type = items[cnt]['type'];
         const option_id = items[cnt]['option_id'];
         const option = items[cnt]['option'];
 
@@ -164,6 +167,7 @@ export class SurveysRepository {
           } else {
             res[survey_id]['questions'][question_id] = {};
             res[survey_id]['questions'][question_id]['question'] = question;
+            res[survey_id]['questions'][question_id]['type'] = type;
             res[survey_id]['questions'][question_id]['options'] = {};
             res[survey_id]['questions'][question_id]['options'][option_id] = {
               title: option,
@@ -175,6 +179,7 @@ export class SurveysRepository {
           res[survey_id]['questions'] = {};
           res[survey_id]['questions'][question_id] = {};
           res[survey_id]['questions'][question_id]['question'] = question;
+          res[survey_id]['questions'][question_id]['type'] = type;
           res[survey_id]['questions'][question_id]['options'] = {};
           res[survey_id]['questions'][question_id]['options'][option_id] = {
             title: option,

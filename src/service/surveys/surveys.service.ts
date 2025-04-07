@@ -7,6 +7,7 @@ import { UpdateSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysUpd
 import { DeleteSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysDeleteResponse.dto';
 import { GetByOwnerIdSurveysResponseDto } from 'src/api/dtoResponse/surveys/surveysGetByOwnerIdResp.dto';
 import { GetSurveysResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveys';
+import { GetSurveysAllInfoResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveysAllInfo';
 import { Surveys } from 'src/db/models/surveys/surveys';
 import { CreateSurveysType } from 'src/db/types/surveys/CreateSurveysType';
 import { ChangeTitleSurveysType } from 'src/db/types/surveys/ChangeTitleSurveysType';
@@ -88,10 +89,10 @@ export class SurveysService {
     return plainToInstance(GetSurveysResponseDto, surveys);
   }
 
-  async getAllInfo() {
+  async getAllInfo(): Promise<GetSurveysAllInfoResponseDto> {
     const surveys = await this.surveysRepository.getAllInfo();
 
-    return surveys;
+    return plainToInstance(GetSurveysAllInfoResponseDto, surveys);
   }
 
   async delete(

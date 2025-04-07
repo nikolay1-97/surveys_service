@@ -6,6 +6,7 @@ import { CreateOptionResponseDto } from 'src/api/dtoResponse/options/optionCreat
 import { ChangeTitleOptionDto } from 'src/api/dto/options/optionChangeTitle.dto';
 import { ChangeTitleOptionResponseDto } from 'src/api/dtoResponse/options/optionChangeTitleResponse.dto';
 import { GetByQuestionIdOptionResponseDto } from 'src/api/dtoResponse/options/optionGetByQuestionIdResponse.dto';
+import { GetOptionsResponseDto } from 'src/api/dtoResponse/options/users/getOptions';
 import { DeleteOptionResponseDto } from 'src/api/dtoResponse/options/optionDeleteResponse.dto';
 import { plainToInstance } from 'class-transformer';
 import { Options } from 'src/db/models/options/options';
@@ -99,6 +100,14 @@ export class OptionsService {
     const options = await this.optionsRepository.getByQuestionId(question_id);
 
     return plainToInstance(GetByQuestionIdOptionResponseDto, options);
+  }
+
+  async getByQuestionIdForUsers(
+    question_id: number,
+  ): Promise<GetOptionsResponseDto[]> {
+    const options = await this.optionsRepository.getByQuestionIdForUsers(question_id);
+
+    return plainToInstance(GetOptionsResponseDto, options);
   }
 
   async delete(id: number, owner_id: number): Promise<DeleteOptionResponseDto> {

@@ -14,9 +14,6 @@ export class GetSurveysResponseDto {
   @IsString()
   readonly title: string;
 
-  @Exclude()
-  readonly created_at: string;
-
   constructor(partial: Partial<GetSurveysResponseDto>) {
     Object.assign(this, partial);
   }

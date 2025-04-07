@@ -39,6 +39,20 @@ export class QuestionsRepository {
     }
   }
 
+  async getBySurveyIdForUsers(survey_id: number) {
+    try {
+      const items: Questions[] | undefined = await this.modelClass
+        .query()
+        .select('id', 'question', 'type')
+        .where('survey_id', '=', survey_id);
+
+      return items;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
   async getByIdSurveyId(id: number, survey_id: number) {
     try {
       const items: Questions[] | undefined = await this.modelClass

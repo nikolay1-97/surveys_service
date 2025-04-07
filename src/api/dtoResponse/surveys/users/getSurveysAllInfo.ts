@@ -17,6 +17,10 @@ export class Question {
   @IsString()
   readonly question: string;
 
+  @ApiProperty()
+  @IsString()
+  readonly type: string;
+
   @ApiProperty({ type: () => Options })
   readonly options: Options;
 }

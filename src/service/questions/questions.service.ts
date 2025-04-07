@@ -9,6 +9,7 @@ import { ChangeTypeQuestionDto } from 'src/api/dto/questions/questionChangeType.
 import { ChangeTypeQuestionResponseDto } from 'src/api/dtoResponse/questions/questionChangeTypeResponse.dto';
 import { GetBySurveyIdQuestionResponseDto } from 'src/api/dtoResponse/questions/questionGetBySurveyIdResponse.dto';
 import { DeleteQuestionResponseDto } from 'src/api/dtoResponse/questions/questionDeleteResponse.dto';
+import { GetQuestionsResponseDto } from 'src/api/dtoResponse/questions/users/getQuestions';
 import { plainToInstance } from 'class-transformer';
 import { Questions } from 'src/db/models/questions/questions';
 import { CreateQuestionType } from 'src/db/types/questions/createQuestion';
@@ -129,6 +130,14 @@ export class QuestionsService {
     const questions = await this.questionsRepository.getBySurveyId(survey_id);
 
     return plainToInstance(GetBySurveyIdQuestionResponseDto, questions);
+  }
+
+  async getBySurveyIdForUsers(
+    survey_id: number,
+  ): Promise<GetQuestionsResponseDto[]> {
+    const questions = await this.questionsRepository.getBySurveyIdForUsers(survey_id);
+
+    return plainToInstance(GetQuestionsResponseDto, questions);
   }
 
   async delete(

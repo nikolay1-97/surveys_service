@@ -1,6 +1,6 @@
 import { IsString, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+
 
 export class GetOptionsResponseDto {
   @ApiProperty()
@@ -14,9 +14,6 @@ export class GetOptionsResponseDto {
   @ApiProperty()
   @IsString()
   readonly title: string;
-
-  @Exclude()
-  readonly created_at: string;
 
   constructor(partial: Partial<GetOptionsResponseDto>) {
     Object.assign(this, partial);

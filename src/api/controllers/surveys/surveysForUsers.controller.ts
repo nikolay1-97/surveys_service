@@ -14,8 +14,9 @@ import { GetQuestionsResponseDto } from 'src/api/dtoResponse/questions/users/get
 import { GetOptionsResponseDto } from 'src/api/dtoResponse/options/users/getOptions';
 import { GetSurveysAllInfoResponseDto } from 'src/api/dtoResponse/surveys/users/getSurveysAllInfo';
 import { UsersAuthGuard } from 'src/api/guards/user/userAuthGuard';
+import { plainToInstance } from 'class-transformer';
 
-@UseGuards(UsersAuthGuard)
+//@UseGuards(UsersAuthGuard)
 @ApiTags('Users/Surveys')
 @Controller('surveys')
 export class SurveysForUsersController {
@@ -33,8 +34,9 @@ export class SurveysForUsersController {
 
   @ApiResponse({ status: 200, type: GetSurveysAllInfoResponseDto })
   @Get('all-info')
-  async getAllInfo() {
-    return await this.surveysService.getAllInfo();
+  async getAllInfo(): Promise<GetSurveysAllInfoResponseDto> {
+    const surveys = await this.surveysService.getAllInfo();
+    return plainToInstance(GetSurveysAllInfoResponseDto, surveys);
   }
 
   @ApiResponse({ status: 200, type: [GetQuestionsResponseDto] })
@@ -42,7 +44,7 @@ export class SurveysForUsersController {
   async getBySurveyId(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<GetQuestionsResponseDto[]> {
-    return await this.questionsService.getBySurveyId(id);
+    return await this.questionsService.getBySurveyIdForUsers(id);
   }
 
   @ApiResponse({ status: 200, type: [GetOptionsResponseDto] })
@@ -50,6 +52,6 @@ export class SurveysForUsersController {
   async getByQuestionId(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<GetOptionsResponseDto[]> {
-    return await this.optionsService.getByQuestionId(id);
+    return await this.optionsService.getByQuestionIdForUsers(id);
   }
 }
