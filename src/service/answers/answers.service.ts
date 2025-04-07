@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { AnswersRepository } from 'src/db/repositories/answers/repository';
 import { QuestionsRepository } from 'src/db/repositories/questions/repository';
 import { AnswersOptionsRepository } from 'src/db/repositories/answers_options/repository';
@@ -18,6 +18,7 @@ export class AnswersService {
     private readonly answersOptionsRepository: AnswersOptionsRepository,
     private readonly optionRepository: OptionsRepository,
     private readonly surResRepository: SurveyResultsRepository,
+    private readonly logger = new Logger(AnswersService.name),
   ) {}
 
   async create(
@@ -89,6 +90,7 @@ export class AnswersService {
         });
       } catch (e) {
         await trx.rollback();
+        this.logger.error(e)
         throw e;
       }
     }

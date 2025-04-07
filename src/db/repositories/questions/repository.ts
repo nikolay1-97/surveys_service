@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Questions } from 'src/db/models/questions/questions';
 import { CreateQuestionType } from 'src/db/types/questions/createQuestion';
@@ -7,7 +7,10 @@ import { ChangeQuestionType } from 'src/db/types/questions/changeQuestionType';
 
 @Injectable()
 export class QuestionsRepository {
-  constructor(@Inject('Questions') private modelClass: ModelClass<Questions>) {}
+  constructor(
+    @Inject('Questions') private modelClass: ModelClass<Questions>,
+    private readonly logger = new Logger(QuestionsRepository.name),
+  ) {}
 
   async getById(id: number) {
     try {
@@ -17,7 +20,7 @@ export class QuestionsRepository {
 
       return item;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -31,7 +34,7 @@ export class QuestionsRepository {
 
       return items;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -46,7 +49,7 @@ export class QuestionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -61,7 +64,7 @@ export class QuestionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -78,7 +81,7 @@ export class QuestionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -87,7 +90,7 @@ export class QuestionsRepository {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -102,7 +105,7 @@ export class QuestionsRepository {
         .first();
       return data;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -111,7 +114,7 @@ export class QuestionsRepository {
     try {
       await this.modelClass.query(trx).deleteById(id);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }

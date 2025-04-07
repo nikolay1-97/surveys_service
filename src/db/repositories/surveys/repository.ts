@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Surveys } from 'src/db/models/surveys/surveys';
 import { CreateSurveysType } from 'src/db/types/surveys/CreateSurveysType';
@@ -6,7 +6,10 @@ import { ChangeTitleSurveysType } from 'src/db/types/surveys/ChangeTitleSurveysT
 
 @Injectable()
 export class SurveysRepository {
-  constructor(@Inject('Surveys') private modelClass: ModelClass<Surveys>) {}
+  constructor(
+    @Inject('Surveys') private modelClass: ModelClass<Surveys>,
+    private readonly logger = new Logger(SurveysRepository.name),
+  ) {}
 
   async getById(id: number) {
     try {
@@ -16,7 +19,7 @@ export class SurveysRepository {
 
       return item;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -27,7 +30,7 @@ export class SurveysRepository {
 
       return items;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -41,7 +44,7 @@ export class SurveysRepository {
 
       return items;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -56,7 +59,7 @@ export class SurveysRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -70,7 +73,7 @@ export class SurveysRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -79,7 +82,7 @@ export class SurveysRepository {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -94,7 +97,7 @@ export class SurveysRepository {
         .first();
       return data;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -103,7 +106,7 @@ export class SurveysRepository {
     try {
       await this.modelClass.query(trx).deleteById(id);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -119,7 +122,7 @@ export class SurveysRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -181,7 +184,7 @@ export class SurveysRepository {
 
       return res;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }

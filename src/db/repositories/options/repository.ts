@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Options } from 'src/db/models/options/options';
 import { CreateOptionsType } from 'src/db/types/options/createOptionsType';
@@ -6,7 +6,10 @@ import { ChangeTitleOptionsType } from 'src/db/types/options/changeTitleOptionsT
 
 @Injectable()
 export class OptionsRepository {
-  constructor(@Inject('Options') private modelClass: ModelClass<Options>) {}
+  constructor(
+    @Inject('Options') private modelClass: ModelClass<Options>,
+    private readonly logger = new Logger(OptionsRepository.name),
+  ) {}
 
   async getById(id: number) {
     try {
@@ -16,7 +19,7 @@ export class OptionsRepository {
 
       return item;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -30,7 +33,7 @@ export class OptionsRepository {
 
       return items;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -45,7 +48,7 @@ export class OptionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -62,7 +65,7 @@ export class OptionsRepository {
 
       return items;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -77,7 +80,7 @@ export class OptionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -86,7 +89,7 @@ export class OptionsRepository {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -101,7 +104,7 @@ export class OptionsRepository {
         .first();
       return data;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -110,7 +113,7 @@ export class OptionsRepository {
     try {
       await this.modelClass.query(trx).deleteById(id);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -127,7 +130,7 @@ export class OptionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -150,7 +153,7 @@ export class OptionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -168,7 +171,7 @@ export class OptionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }

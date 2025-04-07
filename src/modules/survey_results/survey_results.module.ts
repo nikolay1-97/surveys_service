@@ -18,6 +18,7 @@ import { JwtService } from '@nestjs/jwt';
     UsersRepository,
     SurveyResults,
     JwtService,
+    Object,
   ],
 })
 export class SurveyResultsModule {}

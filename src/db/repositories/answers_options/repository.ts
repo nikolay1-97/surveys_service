@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { AnswersOptions } from 'src/db/models/answersOptions/answersOptions';
 import { CreateAnswersOptionsType } from 'src/db/types/answersOptions/answersOptionsType';
@@ -7,13 +7,14 @@ import { CreateAnswersOptionsType } from 'src/db/types/answersOptions/answersOpt
 export class AnswersOptionsRepository {
   constructor(
     @Inject('AnswersOptions') private modelClass: ModelClass<AnswersOptions>,
+    private readonly logger = new Logger(AnswersOptionsRepository.name),
   ) {}
 
   async create(data: Array<CreateAnswersOptionsType>, trx) {
     try {
       await this.modelClass.query(trx).insert(data);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -28,7 +29,7 @@ export class AnswersOptionsRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -87,7 +88,7 @@ export class AnswersOptionsRepository {
       res['count'] = Object.keys(res).length;
       return res;
     } catch (e) {
-      console.log(e);
+      this.logger.error(e)
       throw e;
     }
   }

@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { UsersRepository } from 'src/db/repositories/users/repository';
 import { CreateUserDto } from 'src/api/dto/users/userCreate.dto';
 import { CreateUserResponseDto } from 'src/api/dtoResponse/user/userCreateResponse.dto';
@@ -11,6 +11,7 @@ export class UsersService {
   constructor(
     private readonly userRepository: UsersRepository,
     private readonly passwordService: PasswordService,
+    private readonly logger = new Logger(UsersService.name),
   ) {}
 
   async create(dto: CreateUserDto): Promise<CreateUserResponseDto> {
@@ -26,7 +27,7 @@ export class UsersService {
         await trx.commit();
         return new CreateUserResponseDto({ email: dto.email });
       } catch (e) {
-        console.log(e);
+        this.logger.error(e);
         await trx.rollback();
         throw e;
       }

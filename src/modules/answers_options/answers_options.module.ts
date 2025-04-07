@@ -6,6 +6,6 @@ import { AnswersOptions } from 'src/db/models/answersOptions/answersOptions';
 
 @Module({
   controllers: [AnswersOptionsController],
-  providers: [AnswersOptionsService, AnswersOptionsRepository, AnswersOptions],
+  providers: [AnswersOptionsService, AnswersOptionsRepository, AnswersOptions, Object,],
 })
 export class AnswersOptionsModule {}

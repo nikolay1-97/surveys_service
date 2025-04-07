@@ -1,10 +1,13 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Admins } from 'src/db/models/admins/admins';
 
 @Injectable()
 export class AdminsRepository {
-  constructor(@Inject('Admins') private modelClass: ModelClass<Admins>) {}
+  constructor(
+    @Inject('Admins') private modelClass: ModelClass<Admins>,
+    private readonly logger = new Logger(AdminsRepository.name),
+  ) {}
 
   async getByEmail(email: string) {
     try {
@@ -15,7 +18,7 @@ export class AdminsRepository {
 
       return admins[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }

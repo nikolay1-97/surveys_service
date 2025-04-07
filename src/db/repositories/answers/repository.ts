@@ -1,12 +1,14 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { ModelClass } from 'objection';
 import { Answers } from 'src/db/models/answers/answers';
 import { CreateAnswersType } from 'src/db/types/answers/createAnswersType';
+
 
 @Injectable()
 export class AnswersRepository {
   constructor(
     @Inject('Answers') private readonly modelClass: ModelClass<Answers>,
+    private readonly logger = new Logger(AnswersRepository.name),
   ) {}
 
   async getBySurveyResultIdQuestionIdUserId(
@@ -24,7 +26,7 @@ export class AnswersRepository {
 
       return items[0];
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }
@@ -33,7 +35,7 @@ export class AnswersRepository {
     try {
       return await this.modelClass.query(trx).insert(data);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       throw e;
     }
   }

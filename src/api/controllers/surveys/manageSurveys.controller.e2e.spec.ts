@@ -31,8 +31,9 @@ describe('ManageSurveysController (e2e)', () => {
       .expect(200)
       .expect((response) => {
         return (
-          response.body[0].title === 'survey1' && response.body[1].title === 'survey3'
-          && response.body[2].title === 'survey4'
+          response.body[0].title === 'survey1' && response.body[0].owner_id === 1
+          && response.body[1].title === 'survey3' && response.body[1].owner_id === 1
+          && response.body[2].title === 'survey4' && response.body[2].owner_id === 1
         );
       });
   }),
@@ -50,8 +51,12 @@ describe('ManageSurveysController (e2e)', () => {
       .expect(200)
       .expect((response) => {
         return (
-          response.body[0].question === 'question1' && response.body[1].question === 'question2'
-          && response.body[2].question === 'question3'
+          response.body[0].question === 'question1' && response.body[0].survey_id === 1
+          && response.body[0].type === 'single choice'
+          && response.body[1].question === 'question2'&& response.body[0].survey_id === 1
+          && response.body[1].type === 'multiple choice'
+          && response.body[2].question === 'question3'&& response.body[0].survey_id === 1
+          && response.body[2].type === 'text'
         );
       });
   }),
@@ -69,7 +74,7 @@ describe('ManageSurveysController (e2e)', () => {
       .expect(200)
       .expect((response) => {
         return (
-          response.body[0].title === 'option1'
+          response.body[0].title === 'option1' && response.body[0].question_id === 1
         );
       });
   }),

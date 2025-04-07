@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { QuestionsRepository } from 'src/db/repositories/questions/repository';
 import { SurveysRepository } from 'src/db/repositories/surveys/repository';
 import { CreateQuestionDto } from 'src/api/dto/questions/questionCreate.dto';
@@ -20,6 +20,7 @@ export class QuestionsService {
   constructor(
     private readonly questionsRepository: QuestionsRepository,
     private readonly surveysRepository: SurveysRepository,
+    private readonly logger = new Logger(QuestionsService.name),
   ) {}
 
   async create(
@@ -55,7 +56,7 @@ export class QuestionsService {
           type: dto.type,
         });
       } catch (e) {
-        console.log(e);
+        this.logger.error(e);
         await trx.rollback();
         throw e;
       }
@@ -94,7 +95,7 @@ export class QuestionsService {
       await trx.commit();
       return new ChangeQuestionQuestionResponseDto({ question: dto.question });
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       await trx.rollback();
       throw e;
     }
@@ -116,7 +117,7 @@ export class QuestionsService {
       await trx.commit();
       return new ChangeTypeQuestionResponseDto({ type: dto.type });
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       await trx.rollback();
       throw e;
     }
@@ -154,7 +155,7 @@ export class QuestionsService {
         created_at: question.created_at,
       });
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       await trx.rollback();
       throw e;
     }

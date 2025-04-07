@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { OptionsRepository } from 'src/db/repositories/options/repository';
 import { QuestionsRepository } from 'src/db/repositories/questions/repository';
 import { CreateOptionDto } from 'src/api/dto/options/optionCreate.dto';
@@ -17,6 +17,7 @@ export class OptionsService {
   constructor(
     private readonly optionsRepository: OptionsRepository,
     private readonly questionRepository: QuestionsRepository,
+    private readonly logger = new Logger(OptionsService.name),
   ) {}
 
   async create(
@@ -50,7 +51,7 @@ export class OptionsService {
           title: dto.title,
         });
       } catch (e) {
-        console.log(e);
+        this.logger.error(e);
         await trx.rollback();
         throw e;
       }
@@ -86,7 +87,7 @@ export class OptionsService {
       await trx.commit();
       return new ChangeTitleOptionResponseDto({ title: dto.title });
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       await trx.rollback();
       throw e;
     }
@@ -117,7 +118,7 @@ export class OptionsService {
         created_at: option.created_at,
       });
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
       await trx.rollback();
       throw e;
     }
