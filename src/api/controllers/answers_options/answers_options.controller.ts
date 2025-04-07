@@ -24,9 +24,4 @@ export class AnswersOptionsController {
     return await this.answersOptionsService.getStatBySurveyId(survey_id);
   }
 
-  @ApiResponse({ status: 200, type: GetStatResponseDto })
-  @Get()
-  async getStat() {
-    return await this.answersOptionsService.getStat();
-  }
 }
